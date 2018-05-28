@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CosmicCoder96/chainDB-IoT-Simulation#readme",
   "devDependencies": {
-    "bigchaindb-driver": "^4.0.1"
+    "bigchaindb-driver": "^4.0.1",
+    "ws": "^5.2.0"
   }
 }
