@@ -1,0 +1,19 @@
+{
+  "name": "chaindb-iot-simulation",
+  "version": "1.0.0",
+  "description": "An IoT environment simulator to check feasibility of chainDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CosmicCoder96/chainDB-IoT-Simulation.git"
+  },
+  "author": "CosmicCoder96",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CosmicCoder96/chainDB-IoT-Simulation/issues"
+  },
+  "homepage": "https://github.com/CosmicCoder96/chainDB-IoT-Simulation#readme"
+}
