@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/CosmicCoder96/chainDB-IoT-Simulation/issues"
   },
-  "homepage": "https://github.com/CosmicCoder96/chainDB-IoT-Simulation#readme"
+  "homepage": "https://github.com/CosmicCoder96/chainDB-IoT-Simulation#readme",
+  "devDependencies": {
+    "bigchaindb-driver": "^4.0.1"
+  }
 }
