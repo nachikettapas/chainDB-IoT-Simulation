@@ -18,9 +18,12 @@ exports.main = function (arguments){
     setInterval(function(){ 
 	logger.info('Hello '+name+'!'); 
 
+	var sensor_list = ['temp', 'lux', 'hum', 'noise', 'bar'];
 
 
-	requestify.get('http://172.17.5.188:8000').then( function(response) {
+
+
+	requestify.get(bigchaindbAddress).then( function(response) {
 
 		var data = response.getBody();
 
