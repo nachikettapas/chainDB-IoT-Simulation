@@ -34,10 +34,10 @@ def sensor():
 
     return request.data
 
-@app.route('/retrieve/<resource_id>', methods=['GET'])
-def retrieve(resource_id):
+@app.route('/retrieve/<resource_id>/<sensor_type>', methods=['GET'])
+def retrieve(resource_id, sensor_type):
     db = client['bigchain']
     readings = db.assets
-    for reading in readings.find({"data.reading.type":"temperature"}):
+    for reading in readings.find({"data.reading.type": sensor_type }):
         pprint.pprint(reading)
-    return 'Data will come.{}'.format(resource_id)
+    return 'Data will come.{} - {}'.format(resource_id, sensor_type)
