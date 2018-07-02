@@ -4,7 +4,7 @@
 require 'function.php';
 require 'head.php';
 
-$url = 'http://smartme-data.unime.it/api/3/action/package_list';
+$url = 'http://localhost:5000/retrieve/sensors';
 $dataset = call_api($url);
 
 $res_limit = array(145 => "Last 24 Hours", 289 => "Last 48 Hours", 433 => "Last 3 Days", 910 => "Last Week");
