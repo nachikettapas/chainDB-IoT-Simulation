@@ -1651,7 +1651,8 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
  
         var lcontrol = L.control.layers("",overlayMaps).addTo(map);
         // elenco dei packages si trova alla seguente URL:
-        var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
+        //var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
+		var package_url = "http://localhost:5000/sensors"
 	var tag_show_url = "http://smartme-data.unime.it/api/action/tag_show";
 	var organization_show_url = "http://smartme-data.unime.it/api/action/organization_show";  //DA CANCELLARE????
 	var datastore_search_url = "http://smartme-data.unime.it/api/action/datastore_search";
