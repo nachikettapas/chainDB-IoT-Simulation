@@ -148,6 +148,7 @@ function GetLastSample($id_board,$lim=1)
             $sensor_id = $record->id;
             $Name = ucfirst($name);
             $sensor_url = 'http://smartme-data.unime.it/api/action/datastore_search?resource_id=' . $sensor_id . '&limit='. $lim .'&sort=Date%20desc';
+            // $sensor_url = 'http://localhost:5000/retrieve/'. $sensor_id.'/last'
 
             $data2 = call_api($sensor_url);
 

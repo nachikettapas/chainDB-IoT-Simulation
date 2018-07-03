@@ -147,8 +147,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
     
 <script>
 
-    //SISTEMARE !!!! (dopo demo CNET...)
-
+	// SYSTEM !!!! (after CNET demo ...)
     function change_lamp_status(){
 	var lamp_id = document.getElementById("lamp_list").value;
 	var dimming = document.getElementById("lamp_status").value;
@@ -361,13 +360,17 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
             var board_spente = [""]; //,  "sme-00-0006 - Policlinico Universitario", "sme-00-0016 - Villa Pace"];
 
             jcall.done(function (data) {
+				console.log(data);
                 $.each(data.result, function (k, v) {
+					console.log(k,v);
+					//k is the index of the loop.
+					//v is the actual data
                     extras = v.extras;
                     var lat;
                     var long;
                    // if (typeof v.organization.title === 'undefined') {return true};
 
-		    //Bisogna evitare --> "organization":null,
+		    // Avoid the cases where the organisation is null,
                     if(v.organization != null) {
                       //if (v.num_resources > 0 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {
 		      if (v.num_resources ==7 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {
@@ -420,6 +423,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
                             for (var j = 0; j < sensori.length; j++) {
                                 if (sensori[j].name != "sensors") {
                                     var sensor_url = (sensori[j].name == "gas") ? "" : 'pack_name=' + pack.name + '&id=' + sensori[j].id + '&limit=<?=$limit?>&sensor=' + sensori[j].name;
+									console.log("Sensor url: " + sensor_url)
                                     var padding = (sensori[j].name == "gas") ? " Coming Soon" : "";
 
                                     elenco_sensori += '<a class="list-group-item call_modal ' + icons[sensori[j].name].color +
