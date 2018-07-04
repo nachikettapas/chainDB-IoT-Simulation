@@ -695,48 +695,6 @@ function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
 
         function GetCKAN(data) { return data; }
 
-        function PotHolesLoad() {
-            $.getJSON({
-                url: 'jsonp_call.php?potholes=1',
-                error: function (e) {
-                    console.log(e);
-                }
-            }).done(function(data){
-                HolesLoaded(data);
-            });
-
-        }
-        function HolesLoaded(d) {
-            // console.log(data);
-            for (var i = 0; i < d.length; i++) {
-                var pack = d[i];
-                try {
-                    var lat = pack.lat;
-                    var long = pack.lon;
-                    var bump = L.icon({
-                        iconUrl: "img/icon_pothole.png",
-                        iconSize: [32,32]
-                    });
-                    var marker = L.marker([lat, long], {title: pack.address, icon: bump});
-                    var popup = L.popup({maxWidth: 500, minWidth: 180})
-                        .setContent('<div class="punto " id="' + pack.id + '" pack="' + pack.id + '" > ' +
-                        '<h4> <b>'+ pack.num + '</b> Reports.</h4>' +
-                        '<h4>' + pack.address + '</h4>' +
-                        '<h4>Mean Acceleration from <b>' + Math.round10(pack.minMeanAcc ,-2)+ '</b>' +
-                        ' to <b>' + Math.round10(pack.maxMeanAcc,-2)+ '</b>' +
-                        '</h4></div>');
-                        
-                    marker.bindPopup(popup);
-		    array_markers_potholes.push(marker);
-                    potholes.addLayer(marker);
-                    map.addLayer(potholes);
-                } catch (err) {
-                    console.log(err);
-                }
-
-            }
-        }
-
         // variabili globali
 
 	//PRE FIX: old external mapserver
