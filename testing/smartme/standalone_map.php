@@ -101,48 +101,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 </div>
 
 
-<div class="modal fade" id="lamp_modal"  tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="pull-right" data-dismiss="modal" aria-label="Close">
-                    <span class="fa fa-close"></span>
-                </a>
-		<h3 class="modal-title">Turn ON/OFF a lamp</h3>
-	    </div>
-            <div class="modal-body">
 
-                 <div class="form-group form-inline">
-                     <label>Lamp list</label>
-                          <select class="form-control" id="lamp_list">
-				<?php
-					for($i=1;$i<=10;$i++){
-						echo '<option value="'.$i.'">'.$i.'</option>';
-					}
-				?>
-			  </select>
-
-		     <label>Status</label>
-			  <select class="form-control" id="lamp_status">
-				<option value="100">ON</option>
-				<option value="0">OFF</option>
-			  </select>
-
-    		     <button type=button" class="btn btn-default" onclick="change_lamp_status();">
-			Send
-                     </button>
-		</div>
-	    </div>
-            <fieldset>
-                <legend>Output</legend>
-                <p id="lampstatus-output" />
-            </fieldset>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
     
 <script>
