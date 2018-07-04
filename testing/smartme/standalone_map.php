@@ -4,7 +4,6 @@
 require 'function.php';
 require 'head.php';
 
-//This URL is not being used anywhere at all.
 $url = 'http://localhost:5000/retrieve/sensors';
 $dataset = call_api($url);
 
@@ -148,7 +147,8 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
     
 <script>
 
-	// SYSTEM !!!! (after CNET demo ...)
+    //SISTEMARE !!!! (dopo demo CNET...)
+
     function change_lamp_status(){
 	var lamp_id = document.getElementById("lamp_list").value;
 	var dimming = document.getElementById("lamp_status").value;
@@ -216,30 +216,28 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
                  }                   
             );
         }    
-
 	
         function GetSensoriConDati() {
 
 
-			var jcall = JsonpCall(package_url, "", 1000, "GetCKAN");
-			console.log("GetSensoriConDati():" + jcall);
+            var jcall = JsonpCall(package_url, "", 100, "GetCKAN");
+            console.log("GetSensoriConDati():" + jcall);
             var res = [];
             var extras = [];
 
             var board_spente = [""]; //,  "sme-00-0006 - Policlinico Universitario", "sme-00-0016 - Villa Pace"];
 
             jcall.done(function (data) {
-				console.log(data);
+            	console.log(data.result);
+
                 $.each(data.result, function (k, v) {
-					console.log(k,v);
-					//k is the index of the loop.
-					//v is the actual data
+                	console.log("K: "+k +"V: "+ v);
                     extras = v.extras;
                     var lat;
                     var long;
                    // if (typeof v.organization.title === 'undefined') {return true};
 
-		    // Avoid the cases where the organisation is null,
+		    //Bisogna evitare --> "organization":null,
                     if(v.organization != null) {
                       //if (v.num_resources > 0 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {
 		      if (v.num_resources ==7 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {
@@ -261,6 +259,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
                         });
 
                         if (extras.length) {
+                        	console.log(extras)
                             for (var i = 0; i < extras.length; i++) {
                                 var record = extras[i];
                                 switch (record.key) {
@@ -292,7 +291,8 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
                             for (var j = 0; j < sensori.length; j++) {
                                 if (sensori[j].name != "sensors") {
                                     var sensor_url = (sensori[j].name == "gas") ? "" : 'pack_name=' + pack.name + '&id=' + sensori[j].id + '&limit=<?=$limit?>&sensor=' + sensori[j].name;
-									console.log("Sensor url: " + sensor_url)
+                                    									console.log("Sensor url: " + sensor_url)
+
                                     var padding = (sensori[j].name == "gas") ? " Coming Soon" : "";
 
                                     elenco_sensori += '<a class="list-group-item call_modal ' + icons[sensori[j].name].color +
@@ -694,6 +694,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 			map.addLayer(layer);
 		});
 	}
+	
 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
@@ -1172,10 +1173,9 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
  
         var lcontrol = L.control.layers("",overlayMaps).addTo(map);
-        // The list of packages can be found at the following URL:
-		// This variable seems to enlist only the parking meters.
-        //var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
-		var package_url = "http://localhost:5000/sensors"
+        // elenco dei packages si trova alla seguente URL:
+        // var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
+        var package_url = "http://localhost:5000/sensors"
 	var tag_show_url = "http://smartme-data.unime.it/api/action/tag_show";
 	var organization_show_url = "http://smartme-data.unime.it/api/action/organization_show";  //DA CANCELLARE????
 	var datastore_search_url = "http://smartme-data.unime.it/api/action/datastore_search";
@@ -1203,9 +1203,9 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
 	//TO
 	GetSensoriConDati();
-	//GetParkingMI();
-	//PotHolesLoad();
-	//GetEnergy();
+	// GetParkingMI();
+	// PotHolesLoad();
+	// GetEnergy();
 	
 
         /*
@@ -1267,6 +1267,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
             
             var pack_id = el[0].getElementsByClassName('punto')[0].getAttribute("pack") || null;
             var AllData = $.getJSON('jsonp_call.php?pack_name=' + pack_id);
+            console.log(pack_id);
             AllData.done(function (data) {
                 // imposto data ultimo sample
                 //el[0].getElementsByClassName('sample_date')[0].innerHTML = data[0].date;
