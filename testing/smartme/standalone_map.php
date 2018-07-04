@@ -726,18 +726,12 @@ function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
 	var worldcam = L.layerGroup();
 	var seismic = L.markerClusterGroup({disableClusteringAtZoom: 13});
 	var landslide = L.markerClusterGroup({disableClusteringAtZoom: 13});
-
-
         var polyline;
         var point_layer = L.layerGroup();
         var Chart = "";
         var parking_resource_ids = ['89bf03ee-89e0-437b-8ed5-e28d5a731185','d5d37bee-f2b4-47c9-ba69-0c277d0830c2'];
         var lighting_resource_ids = ['9441735c-ba70-4f9c-981b-1bd6bb8090b7'];
-
-	var world_datastore = "b3d82bb8-5990-4b26-9569-c07688dad69a";
-
-
-
+		var world_datastore = "b3d82bb8-5990-4b26-9569-c07688dad69a";
         var packages = [];
         var sensori = [];
         var ckan_organization = "SmartMe";
@@ -763,103 +757,16 @@ function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
             magnetometer: {color: "bg-blue-gradient", icon: "fa fa-magnet", name: "magnetometer"},
             proximity: {color: "bg-teal-gradient", icon: "fa fa-mobile", name: "proximity"}
         };
-
-        function FetchTaxi(){
-            $.getJSON('/jsonp_call.php?taxi=true')
-            .done(function(data){
-                try{
-                    var t = JSON.parse(localStorage.getItem('taxi'));
-                }catch(e){
-                        console.log(e);
-                }
-                
-               var max = data.length;
-               // controllare l'id data... e aggiungere id_tail feature.coordinate
-               for (i=0; i< max; i++){
-                   try{
-                        if(typeof data[i+1] != "undefined" && data[i+1].geometry.type=="LineString")
-                                                data[i+1].geometry.coordinates.push(data[i].geometry.coordinates);
-                        console.log(data[i]);
-                   }catch(ee){
-                       console.log(data[i],data[i+1].geometry);
-                   }
-               }
-               //console.log(data);  
-               console.log(j++); 
-
-               localStorage.setItem('taxi', JSON.stringify(data));
-               return data;
-            });
-        }
-/*
-        // GET TAXI in RealTime...
-        realtime_taxi = L.realtime( 'jsonp_call.php?taxi=true' ,
-            {
-                pointToLayer: function (feature, latlng) {
-                    return L.marker(latlng, {icon: taxi_icon})
-                },
-                onEachFeature: function onEachFeature(feature, layer) {
-                    if (feature.properties) {
-                        var popupContent = '<div class="punto" id="' +  feature.properties.id  + '" ' +
-                                'pack="' +  feature.properties.id + '" >' +
-                                '<h4 class="text-center" ><span class="label label-success">' + feature.properties.id + '</span></h4>';
-                        popupContent += '<div class="text-center"><ul class="list-group">';
-                        popupContent += '<li class="list-group-item text-left">' + feature.properties.popupContent + ' </li>';
-                        popupContent += '</ul><p class="small">Last Sample: ' + feature.properties.date + '</p></div></div>';
-                        layer.bindPopup(popupContent, {minWidth: 200});
-                    }
-                },
-                interval: 3000
-            }
-        );
-*/
         var overlayMaps = {
             "Messina districts" : distretti,
-            "SmartME Potholes": potholes,
             "SmartME Sensors" : sensors,
-            //"SmartME Taxi" : taxi,		//RIATTIVARE E SISTEMARE !!!!
-            "SmartME Energy" : energy,
-
-	    //FROM
-            //"SmartME Parking" : parking,
-            //"SmartME Lighting" : lighting,
-	    //"LiveCam" : cam
-
-	    //TO (con telecamera parcheggio Unime e parcheggio MI separati)
-	    /*
-	    "SmartME Parking" : MI_parking,
-	    "SmartME Lighting" : MI_lighting,
-	    "LiveCam": cam,
-	    "InfraredCam": infraredcam
-	    "Cam": parking
-	    */
-
-	    //TO (parcheggi unificati)
-	    "SmartME Parking" : global_parking,
-	    "SmartME Lighting" : MI_lighting,
-	    "LiveCam": cam,
-	    "InfraredCam": infraredcam,
-	    "WorldCam": worldcam,
-            "Seismic": seismic,
-	    "Landslide": landslide
         };
 
 
 	map.on('overlayadd', onOverlayAdd);
+	// This function allows you to choose what all features to display on the map.
 	function onOverlayAdd(e){
-		//alert(e.name);
-
-
 		if(e.name == "Messina districts") GetMap();
-
-		else if(e.name == "SmartME Potholes"){
-			//alert(array_markers_potholes.length);
-			if(array_markers_potholes.length != 0){
-				for(i=0;i<array_markers_potholes.length;i++) potholes.removeLayer(array_markers_potholes[i]);
-				array_markers_potholes = [];
-			}
-			PotHolesLoad();
-		}
 		else if(e.name == "SmartME Sensors") {
 			//alert(array_markers_sensors.length);
 			if(flag_first_load){
@@ -873,117 +780,14 @@ function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
 				GetSensoriConDati();
 			}
 		}
-		//VERIFICARE !!!
-		else if(e.name == "SmartME Taxi"){
-			//alert(array_markers_taxi.length);
-			if(array_markers_taxi.length != 0){
-				for(i=0;i<array_markers_taxi.length;i++) taxi.removeLayer(array_markers_taxi[i]);
-				array_markers_taxi = [];
-			}
-			GetTaxi();
-		}
-		else if(e.name == "SmartME Energy"){
-			//alert(array_markers_energy.length);
-			if(array_markers_energy.length != 0){
-				for(i=0;i<array_markers_energy.length;i++) energy.removeLayer(array_markers_energy[i]);
-				array_markers_energy = [];
-			}
-			GetEnergy();
-		}
-		else if(e.name == "SmartME Parking"){
-			//FROM (con telecamera parcheggio Unime e parcheggio MI separati)
-			/*
-			//alert(array_markers_parkingMI.length);
-			if(array_markers_parkingMI.length != 0){
-				for(i=0;i<array_markers_parkingMI.length;i++) MI_parking.removeLayer(array_markers_parkingMI[i]);
-				array_markers_parkingMI = [];
-			}
-			GetParkingMI();
-			*/
-
-			//TO (parcheggi unificati)
-			//alert(array_markers_parking_global.length);
-			if(array_markers_parking_global.length != 0){
-				for(i=0;i<array_markers_parking_global.length;i++) global_parking.removeLayer(array_markers_parking_global[i]);
-				array_markers_parking_global = [];
-			}
-			GetParkingMI();
-			GetParkingCam();
-
-		}
-		else if(e.name == "SmartME Lighting"){
-			//alert(array_markers_lightingMI.length);
-			if(array_markers_lightingMI.length != 0){
-				for(i=0;i<array_markers_lightingMI.length;i++) MI_lighting.removeLayer(array_markers_lightingMI[i]);
-				array_markers_lightingMI = [];
-			}
-			GetLightingMI();
-		}
-		else if(e.name == "LiveCam") {
-
-			//Camera (UniMe)
-			//alert(array_markers_cam.length);
-			if(array_markers_cam.length != 0){
-				for(i=0;i<array_markers_cam.length;i++) cam.removeLayer(array_markers_cam[i]);
-				array_markers_cam = [];
-			}
-			GetCam();
-		}
-		else if(e.name == "InfraredCam"){
-
-			//Infrared Camera (Airport)
-			//alert(array_markers_infrared_cam.length);
-			if(array_markers_infrared_cam.length != 0){
-				for(i=0;i<array_markers_infrared_cam.length;i++) infraredcam.removeLayer(array_markers_infrared_cam[i]);
-				array_markers_infrared_cam = [];
-			}
-			GetInfraredCam();
-		}
-		//Con telecamera parcheggio Unime e parcheggio MI separati
-		/*
-		else if(e.name == "Cam"){
-
-			//Camera (UniMe park)
-			//alert(array_markers_parking_cam.length);
-			if(array_markers_parking_cam.length != 0){
-				for(i=0;i<array_markers_parking_cam.length;i++) parking.removeLayer(array_markers_parking_cam[i]);
-				array_markers_parking_cam = [];
-			}
-			GetParkingCam();
-		}
-		*/
-		else if(e.name == "WorldCam"){
-
-			//World Cameras
-			//alert(array_markers_world_cam.length);
-			if(array_markers_world_cam.length != 0){
-				for(i=0;i<array_markers_world_cam.length;i++) worldcam.removeLayer(array_markers_world_cam[i]);
-				array_markers_world_cam = [];
-			}
-			GetWorldCam();
-		}
-		else if(e.name == "Seismic"){
-			if(array_markers_seismic.length != 0){
-				for(i=0;i<array_markers_seismic.length;i++) seismic.removeLayer(array_markers_seismic[i]);
-				array_markers_seismic = [];
-			}
-			GetSeismicData();
-		}
-		else if(e.name == "Landslide"){
-			if(array_markers_landslide.length != 0){
-				for(i=0;i<array_markers_landslide.length;i++) landslide.removeLayer(array_markers_landslide[i]);
-				array_markers_landslide = [];
-			}
-			GetLandslideData();
-		}
 	}
 
 
  
-        var lcontrol = L.control.layers("",overlayMaps).addTo(map);
-        // elenco dei packages si trova alla seguente URL:
-        // var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
-        var package_url = "http://localhost:5000/sensors"
+    var lcontrol = L.control.layers("",overlayMaps).addTo(map);
+    // Fetch all the packages with resource descriptions.
+    // var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
+    var package_url = "http://localhost:5000/sensors"
 	var tag_show_url = "http://smartme-data.unime.it/api/action/tag_show";
 	var organization_show_url = "http://smartme-data.unime.it/api/action/organization_show";  //DA CANCELLARE????
 	var datastore_search_url = "http://smartme-data.unime.it/api/action/datastore_search";
@@ -992,36 +796,7 @@ function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
 
 	var removed_datastores = ["seismograph-01"];
 
-
-        // esecuzione prima chiamata per la generazione dell'elenco dei sensori
-
-	//FROM (erano decommentati...)
-	/*	
-        GetTaxi();
-        GetSensoriConDati();
-        PotHolesLoad();
-        GetCam();
-        GetInfraredCam();
-        GetEnergy();    
-        GetParkingCam();
-        GetParkingMI();
-        GetLightingMI();
-        GetMap();
-	*/
-
-	//TO
 	GetSensoriConDati();
-	// GetParkingMI();
-	// PotHolesLoad();
-	// GetEnergy();
-	
-
-        /*
-        var timeout = 1000;
-        var j=0;
-        setInterval(FetchTaxi(),timeout);
-        */
-        
         map.on('popupopen', function (e) {
             var t= e.target._popup._content;
             
