@@ -772,7 +772,7 @@
    var lcontrol = L.control.layers("",overlayMaps).addTo(map);
    // Fetch all the packages with resource descriptions.
    // var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
-   var package_url = "http://localhost:5000/sensors"
+   var package_url = "http://localhost:5000/boards"
    var tag_show_url = "http://smartme-data.unime.it/api/action/tag_show";
    var organization_show_url = "http://smartme-data.unime.it/api/action/organization_show";  //DA CANCELLARE????
    var datastore_search_url = "http://smartme-data.unime.it/api/action/datastore_search";
@@ -880,7 +880,9 @@
        function DrawGraph(url, resourceId, sensor_name,lim, sensor_unit, sensor_unit_label){
    //            console.log("LOG1");
    //            console.log(sensor_unit,sensor_name);
+   			console.log("Graph drawing triggered.");
            url = url + '?sql=' + prepareSqlStatement(resourceId , sensor_name, lim);
+           console.log(url);
            var chart_width = parseInt($('.modal-lg').width() -50 );
            var records = [];
            var unit_label = (typeof unit[sensor_name] === 'undefined')?unit:unit[sensor_name];
