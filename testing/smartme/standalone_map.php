@@ -4,6 +4,7 @@
 require 'function.php';
 require 'head.php';
 
+//This URL is not being used anywhere at all.
 $url = 'http://localhost:5000/retrieve/sensors';
 $dataset = call_api($url);
 
@@ -220,7 +221,8 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
 
             //var jcall = JsonpCall(package_url, "", 12, "GetCKAN");
-	    var jcall = JsonpCall(package_url, "", 200, "GetCKAN");
+		var jcall = JsonpCall(package_url, "", 200, "GetCKAN");
+		console.log("GetTaxi():" + jcall);
 
 	    //var url_org_datasets= "http://smartme-data.unime.it/api/3/action/organization_show"
 	    //var org = "ef92b8d2-3843-4bee-b361-0c09230b5de8";
@@ -353,7 +355,8 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
         function GetSensoriConDati() {
 
 
-            var jcall = JsonpCall(package_url, "", 1000, "GetCKAN");
+			var jcall = JsonpCall(package_url, "", 1000, "GetCKAN");
+			console.log("GetSensoriConDati():" + jcall);
             var res = [];
             var extras = [];
 
@@ -1650,7 +1653,8 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
  
         var lcontrol = L.control.layers("",overlayMaps).addTo(map);
-        // elenco dei packages si trova alla seguente URL:
+        // The list of packages can be found at the following URL:
+		// This variable seems to enlist only the parking meters.
         //var package_url = "http://smartme-data.unime.it/api/3/action/current_package_list_with_resources";
 		var package_url = "http://localhost:5000/sensors"
 	var tag_show_url = "http://smartme-data.unime.it/api/action/tag_show";
