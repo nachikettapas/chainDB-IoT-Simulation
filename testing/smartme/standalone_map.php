@@ -1123,57 +1123,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
 
 
-        function GetParkingMI(){
-
-           var cam_icon = L.icon({
-                iconUrl: "img/park_marker.png",
-                iconSize: [20,32]
-           });
-
-           var popup = L.popup({maxWidth: 300, minWidth: 200})
-                                .setContent('<div class="parking_mi" style="width: 280px; position: relative;"><span>Meridionale Impianti Coorporate Parking Area<span id="parking_info_mi"></span>');
-           var marker = L.marker([37.55560, 14.98149], {title: "parking_mi", icon: cam_icon }).bindPopup(popup);
-
-	   //FROM (con telecamera parcheggio Unime e parcheggio MI separati)
-	   //array_markers_parkingMI.push(marker);
-
-	   //TO (parcheggi unificati)
-	   array_markers_parking_global.push(marker);
-
-	   //FROM
-           //parking.addLayer(marker);
-	   //map.addLayer(parking);
-
-	   //TO (con telecamera parcheggio Unime e parcheggio MI separati)
-	   /*
-	   MI_parking.addLayer(marker);
-	   map.addLayer(MI_parking);
-	   */
-
-	   //TO (parcheggi unificati)
-	   global_parking.addLayer(marker);
-	   map.addLayer(global_parking);
-        }
-        
-        function GetLightingMI(){
-
-           var cam_icon = L.icon({
-                iconUrl: "img/lighting_marker.png",
-                iconSize: [20,32]
-           });
-
-           var popup = L.popup({maxWidth: 300, minWidth: 200})
-                                .setContent('<div class="lighting_mi" style="width: 280px; position: relative;"><span>Meridionale Impianti Coorporate Lighting<span id="lighting_info_mi"></span>');
-           var marker = L.marker([37.55550, 14.98139], {title: "lighting_mi", icon: cam_icon }).bindPopup(popup);
-
-	   array_markers_lightingMI.push(marker);
-	   //FROM
-	   //lighting.addLayer(marker);
-	   //map.addLayer(lighting);
-	   //TO
-	   MI_lighting.addLayer(marker);
-           map.addLayer(MI_lighting);
-        }        
+     
        
 
         function capitalizeFirstLetter(string) {
