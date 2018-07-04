@@ -1684,9 +1684,9 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
 	//TO
 	GetSensoriConDati();
-	GetParkingMI();
-	PotHolesLoad();
-	GetEnergy();
+	//GetParkingMI();
+	//PotHolesLoad();
+	//GetEnergy();
 	
 
         /*
