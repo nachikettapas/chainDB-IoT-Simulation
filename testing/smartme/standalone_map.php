@@ -464,37 +464,7 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
                 }
             });
         }
-	function GetEnergy(){
-		var tag = "energy";
-		var energy_icon = L.icon({
-			iconUrl: "img/energy_marker.png",
-			iconSize: [19,32]
-		});
 
-		retrieve_data_and_create_markers(tag, energy_icon, array_markers_energy, energy);
-	}
-
-
-	function GetSeismicData(){
-		var tag = "seismic";
-		var seismic_icon = L.icon({
-			iconUrl: "img/earthquake_marker.png",
-			iconSize: [32,32]
-		});
-
-		retrieve_data_and_create_markers(tag, seismic_icon, array_markers_seismic, seismic);
-	}
-
-
-	function GetLandslideData(){
-		var tag = "landslide";
-		var landslide_icon = L.icon({
-			iconUrl: "img/landslide_marker.png",
-			iconSize: [32,32]
-		});
-	
-		retrieve_data_and_create_markers(tag, landslide_icon, array_markers_landslide, landslide);
-	}
 
 	//NUOVA VERSIONE: funzione per la creazione del contesto (ovvero il contenuto del popup) del marker 
 	//******************************************************************************************************************************
