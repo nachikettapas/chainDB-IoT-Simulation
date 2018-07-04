@@ -339,3 +339,8 @@ def sensors():
 @app.route('/boards/<board_id>', methods = ['GET'])
 def board_by_id(board_id):
     return 'Board {} with all it\'s resources'.format(board_id)
+
+@app.route('/sensors/<sensor_id>')
+def sensor_by_id(sensor_id):
+    limit = request.args.get('limit')
+    return 'Sensor {} with it\'s readings and limit as {}'.format(sensor_id, limit)
