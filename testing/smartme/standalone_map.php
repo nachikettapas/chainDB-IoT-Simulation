@@ -146,50 +146,11 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 
     
 <script>
-
-    //SISTEMARE !!!! (dopo demo CNET...)
-
-    function change_lamp_status(){
-	var lamp_id = document.getElementById("lamp_list").value;
-	var dimming = document.getElementById("lamp_status").value;
-
-	var loader_pathfile = './ajax-loader.gif';
-	document.getElementById('loading_bar').style.visibility='visible';
-	document.getElementById('loading_bar').style.width='100%';
-        document.getElementById('loading_bar').style.height='100%';
-        document.getElementById('loading_bar').style.position='fixed';//'absolute';//'fixed';
-        document.getElementById('loading_bar').style.top='0';
-        document.getElementById('loading_bar').style.left='0';
-        document.getElementById('loading_bar').style.zIndex='9999';
-        document.getElementById('loading_bar').style.background="url('"+loader_pathfile+"') no-repeat center center rgba(0,0,0,0.25)";
-
-
-	$.ajax({
-		url: "http://212.189.207.206:8555/"+lamp_id+"/"+dimming,
-		type: "GET",
-		dataType: 'jsonp',
-
-		success: function(response){
-			//document.getElementById("lampstatus-output").innerHTML = JSON.stringify(response.result);
-			document.getElementById('loading_bar').style.visibility='hidden';
-			document.getElementById("lampstatus-output").innerHTML = "Lamp "+lamp_id+ " new brightness value --> "+dimming;
-		},
-		error: function(response){
-			//document.getElementById("lampstatus-output").innerHTML = "ERROR: "+JSON.stringify(response.result);
-			document.getElementById('loading_bar').style.visibility='hidden';
-			document.getElementById("lampstatus-output").innerHTML = "Lamp "+lamp_id+ " new brightness value --> "+dimming;
-		}
-
-	});
-    }
-
-
     $(document).ready(function () {
-
 	var flag_first_load = true;
 
-        // Funzioni di supporto
-        // inserimento dei mark dall'elenco delle BOARDS.
+      	// Support functions
+		// inserting marks from the BOARDS list.
          var taxi_icon = L.icon({
                 iconUrl: "img/taxi_marker.png",
                 iconSize: [26,32]
@@ -332,9 +293,9 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
         }
 
 
-	//NUOVA VERSIONE: funzione per la creazione del contesto (ovvero il contenuto del popup) del marker 
-	//******************************************************************************************************************************
-	//Nel caso in cui volessi stampare il contenuto di JSON ricorsivi
+	// NEW VERSION: function for creating the context (ie the contents of the popup) of the marker
+// ************************************************ ************************************************** ****************************
+// In case you want to print the contents of recursive JSON
 	
 	function censor(censor) {
 		var i = 0;
@@ -355,8 +316,9 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 	//******************************************************************************************************************************
 
 
-	//Accetta in ingresso il tag, l'icona del marker, l'array che conterrà tutti i marker ed il layer dei marker
-	function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
+// Accept input tag, marker icon, array that will contain all markers and marker layers	
+
+function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
 
 		var allowed_time_window = "30"; //in minuti
 
@@ -407,77 +369,6 @@ $unit = array("temperature" => "C", "brightness" => "Lux", "humidity" => "%", "p
 					resources: resources,
 					visibility: true
 				}
-				//console.log(packs[i]);
-			
-				//DA VERIFICARE !!!!! (al momento si usa l'altra funzione)
-				/*
-				if(tag == "testbed"){
-					//console.log(packs[i]);
-					for(j=0; j<package.num_resources; j++){
-						//console.log(packs[i].label+" "+package.resources[j].name);
-
-						//Serve solamente a prendere la data del campione piu' recente ed eventualmente se troppo vecchio...non fare apparire la board
-						if(package.resources[j].name == "temperature"){
-							//console.log(packs[i].label+" "+package.resources[j].name);
-
-							var a = new Promise( function (resolve){
-								JsonpCallDatastoreSearchLast(datastore_search_url, package.id, package.resources[j].id, package.resources[j].name, "Date desc", resolve);
-							});
-
-							Promise.all([a]).then(values => {
-								//console.log(values);
-								//console.log(packs[i].label+" "+package.resources[j].name);
-
-								var date = new Date();
-								var start_time_window = new Date(date.setMinutes(date.getMinutes() - allowed_time_window));
-
-								if(values[0].result.records.length != 0){
-									board_date = new Date(values[0].result.records[0].Date);
-									
-									//console.log("BOARD: "+board_date+ " BROWSER: "+start_time_window);
-
-									for(k=0; k<packs.length; k++){
-
-										if(packs[k].id == package.id){
-											//Se la data dell'ultimo campione della board e' precedente alla finestra di 30 minuti concessa bisogna non far apparire tale board
-											
-											//if(board_date >= start_time_window){
-
-											//	packs[k].visibility = true;
-												//console.log("ACTIVE ---> Board: "+packs[k].label);
-											//}
-											//else{
-											//	packs[k].visibility = false;
-												//console.log("INACTIVE ---> Board: "+packs[k].label);
-											//}
-											//break;
-
-											if(board_date >= start_time_window){
-												packs.remove(k);
-											}
-											break;
-										}
-									}
-								}
-							});
-							break;
-						}
-					}
-				}
-				*/
-				/*
-				if(tag == "testbed"){
-					console.log("testbed...");
-				}
-				else if (tag == "energy") {
-					//bla(package, tag, icon, array_markers, layer);
-					console.log("energy...");
-				}
-				else if (tag == "seismic"){
-					console.log("seismic...");
-				}
-				*/
-
 
 				var popup = L.popup({maxWidth: 700, minWidth: 200});
 
