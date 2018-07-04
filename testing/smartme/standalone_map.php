@@ -143,10 +143,7 @@
                   // if (typeof v.organization.title === 'undefined') {return true};
    
      //Bisogna evitare --> "organization":null,
-                   if(v.organization != null) {
-                     //if (v.num_resources > 0 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {
-       if (v.num_resources ==7 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {
-   
+                     //if (v.num_resources > 0 && v.organization.title == ckan_organization && (board_spente.indexOf(v.notes) < 0)) {   
                        packages[k] = {
                            id: v.id,
                            lat: "",
@@ -180,8 +177,6 @@
                                }
                            }
                        }
-                     }
-     }
                });
            }).then(function () {
                for (var i = 0; i < packages.length; i++) {
@@ -793,6 +788,7 @@
            var AllData = $.getJSON('jsonp_call.php?pack_name=' + pack_id);
            console.log(pack_id);
            AllData.done(function (data) {
+			   console.log('you just clicked on a marker on map '+data);
                // imposto data ultimo sample
                //el[0].getElementsByClassName('sample_date')[0].innerHTML = data[0].date;
    

@@ -119,8 +119,12 @@ function GetHoles()
 function GetLastSample($id_board,$lim=1)
 {
     // mi richiamo la board
-    $pack_url = 'http://smartme-data.unime.it/api/action/package_show?id=' . $id_board;
-    $data = call_api($pack_url);
+    // $pack_url = 'http://smartme-data.unime.it/api/action/package_show?id=' . $id_board;
+    $pack_url = "http://localhost/boards/94663111-7227-4b9e-95e2-1c39f41867a0";
+    // echo $pack_url;
+
+    $data = call_api($pack_url, 5000);//WARNING!!: remove 5000 if switching to production
+    // echo $data;
     $result = array();
     $unit = array(
         "Temperature" => "&#8451",
@@ -148,7 +152,6 @@ function GetLastSample($id_board,$lim=1)
             $sensor_id = $record->id;
             $Name = ucfirst($name);
             $sensor_url = 'http://smartme-data.unime.it/api/action/datastore_search?resource_id=' . $sensor_id . '&limit='. $lim .'&sort=Date%20desc';
-            // $sensor_url = 'http://localhost:5000/retrieve/'. $sensor_id.'/last'
 
             $data2 = call_api($sensor_url);
 
