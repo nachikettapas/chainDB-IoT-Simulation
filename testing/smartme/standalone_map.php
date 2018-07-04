@@ -1028,50 +1028,6 @@ function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
             var el = $('<div></div>');
             var link = [];
             el.html(t);
-            var parking_cam = $($(el)[0]).children('div').hasClass('parking_cam');
-            if (parking_cam){
-                var t = getParkingInfo();
-                $('#parking_info').html(t);
-                return true;
-            }
-            var infrader_cam = $($(el)[0]).children('div').hasClass('infraredcam');
-            if (infrader_cam){
-                console.log('caminfrared');
-                setInterval(
-                    function(){
-                        console.log ('olo');
-                        var random = Math.floor(Math.random() * Math.pow(2, 31));
-                        $('#infracamera').attr('src', 'http://212.189.207.206/termo/image.jpg?r=' + random);
-                    }, 5000
-                )
-                return true;
-            }
-	    
-            var parking_mi = $($(el)[0]).children('div').hasClass('parking_mi');
-            if (parking_mi){
-                var t = getParkingInfoMI();
-                $('#parking_info_mi').html(t);
-                return true;
-            }
-            
-            var lighting_mi = $($(el)[0]).children('div').hasClass('lighting_mi');
-            if (lighting_mi){
-                var t = getLightingInfoMI();
-                $('#lighting_info_mi').html(t);
-                return true;
-            }            
-            
-            var security_cam = $($(el)[0]).children('div').hasClass('cam');
-
-            if (security_cam){
-                security_cam = el[0].getElementsByClassName('cam')[0];
-                var random = Math.floor(Math.random() * Math.pow(2, 31));
-                $(security_cam).html('<img id="camera" width="320" height="240" src="http://212.189.207.225:8282/mjpg/video.mjpg?r=' + random + '" ssrc="/jsonp_call.php?cam=true" \>');
-                //var img ="/jsonp_call.php?cam=true+image.png";
-                var img = 'http://212.189.207.225:8282/mjpg/video.mjpg?r=' + random ;
-                $('#camera').attr('src' , img);
-                return true;
-            }
             
             var pack_id = el[0].getElementsByClassName('punto')[0].getAttribute("pack") || null;
             var AllData = $.getJSON('jsonp_call.php?pack_name=' + pack_id);
