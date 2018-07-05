@@ -332,24 +332,13 @@ def sensor_by_id(sensor_id):
             if index == limit:
                 break
             readings.append(reading['data'])
-        try:
-            print (readings)
-            return json.dumps(
+        # try:
+        print (readings)
+        return json.dumps(
+            {
+                "result" : 
                 {
-                    "result" : 
-                    {
-                        "records" : readings
-                    }
+                    "records" : readings
                 }
-            )
-        except:
-            print("Sensor readings not found")
-            return json.dumps(
-                {
-                    "result" : 
-                    {
-                        "records" : []
-                    }
-                }
-            )
-    # return 'Sensor {} with it\'s readings and limit as {}'.format(sensor_id, limit)
+            }
+        )
