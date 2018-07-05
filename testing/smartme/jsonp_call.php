@@ -151,9 +151,10 @@ function GetLastSample($id_board,$lim=1)
         if (!($name == "sensors")) {
             $sensor_id = $record->id;
             $Name = ucfirst($name);
-            $sensor_url = 'http://smartme-data.unime.it/api/action/datastore_search?resource_id=' . $sensor_id . '&limit='. $lim .'&sort=Date%20desc';
-
-            $data2 = call_api($sensor_url);
+            // $sensor_url = 'http://smartme-data.unime.it/api/action/datastore_search?resource_id=' . $sensor_id . '&limit='. $lim .'&sort=Date%20desc';
+            $sensor_url = 'http://localhost/sensors/' . $sensor_id . '?limit='. $lim;
+            // echo $sensor_url;
+            $data2 = call_api($sensor_url, 5000);
 
             if (count($data2->result->records)) {
                 foreach( $data2->result->records as $r){
