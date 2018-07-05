@@ -342,3 +342,25 @@ def sensor_by_id(sensor_id):
                 }
             }
         )
+@app.route('/sensors/<sensor_id>/graph', methods=['GET'])
+def drawGraph(sensor_id):
+    points = []
+    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id}):
+        graphPoint={}
+        try:
+            graphPoint['y']=point['data']['Temperature']
+            graphPoint['x']=point['data']['Date']
+            points.append(graphPoint)
+        except:
+            continue
+    # try:
+    print (points)
+    # return json.dumps(
+    #     {
+    #         "result" : 
+    #         {
+    #             "records" : readings
+    #         }
+    #     }
+    # )
+    return "Graph for sensor {}: {}".format(sensor_id, points)

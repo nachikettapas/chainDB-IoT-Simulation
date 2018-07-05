@@ -786,14 +786,15 @@
            
            var pack_id = el[0].getElementsByClassName('punto')[0].getAttribute("pack") || null;
            var AllData = $.getJSON('jsonp_call.php?pack_name=' + pack_id);
-           console.log(pack_id);
+           console.log("You just clicked on the marker of the board "+pack_id);
+           console.log("This is Alldata variable "+AllData);
            AllData.done(function (data) {
-			   console.log('you just clicked on a marker on map '+data);
                // imposto data ultimo sample
                //el[0].getElementsByClassName('sample_date')[0].innerHTML = data[0].date;
    
                //console.log(el[0].getElementsByClassName('sample_date')[0]);
-   
+           console.log('Data for the board has loaded:  '+data);
+
                var all_sens = $('a', el).filter(function (k, val) {
                    var sensor_id = val.toString().split("=")[0];
    
