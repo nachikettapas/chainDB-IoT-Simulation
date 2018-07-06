@@ -37,6 +37,25 @@ def sensor():
 
     return request.get_data()
 
+@app.route('/hello', methods= ['GET'])
+def helloWorld():
+    alice, bob = generate_keypair(), generate_keypair()    
+    bicycle_asset = {
+        'data': {
+            'message' : 'hello'
+            }
+    }
+    prepared_creation_tx = bdb.transactions.prepare(
+    operation='CREATE',
+    signers=alice.public_key,
+    asset=bicycle_asset)
+    fulfilled_creation_tx = bdb.transactions.fulfill(
+    prepared_creation_tx,
+    private_keys=alice.private_key)
+    sent_creation_tx = bdb.transactions.send_commit(fulfilled_creation_tx)
+
+    return 'hello {}'.format(sent_creation_tx)
+
 @app.route('/retrieve/<resource_id>/<sensor_type>', methods=['GET'])
 def retrieve(resource_id, sensor_type):
     db = client['bigchain']
