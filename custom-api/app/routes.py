@@ -12,6 +12,7 @@ client = MongoClient('localhost', 32768)
 print(client.database_names())
 db = client['bigchain']
 collection = db.assets
+transactions = db.transactions
 @app.route('/')
 @app.route('/index')
 def index():
@@ -369,6 +370,7 @@ def drawGraph(sensor_id):
         try:
             graphPoint['y']=point['data']['Temperature']
             graphPoint['x']=point['data']['Date']
+            graphPoint['unique'] = point['id']
             points.append(graphPoint)
         except:
             continue
