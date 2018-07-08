@@ -383,3 +383,7 @@ def drawGraph(sensor_id):
     #     }
     # )
     return "Graph for sensor {}: {}".format(sensor_id, points)
+
+@app.route('/verify/<reading_id>', methods = ['GET'])
+def verify(reading_id):
+    return "Reading verification of {} requested.".format(reading_id)
