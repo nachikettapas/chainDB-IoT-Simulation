@@ -388,4 +388,14 @@ def drawGraph(sensor_id):
 
 @app.route('/verify/<reading_id>', methods = ['GET'])
 def verify(reading_id):
-    return "Reading verification of {} requested.".format(reading_id)
+    transaction = transactions.find_one({"id":reading_id})
+    reading = collection.find_one({"id":reading_id})
+    reading_text = json.dumps(reading['data']).replace(" ","")
+    public_key = transaction['outputs'][0]['condition']['details']['public_key']
+    uri = transaction['outputs'][0]['condition']['uri']
+    print(transaction, public_key, uri)
+    print(generate_message(reading_text, transaction, uri))
+    return "Reading verification of {} requested entailing the transaction {} ".format(reading_id, transaction)
+
+def generate_message(content, public_key, uri):
+    return '{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}}}","type":"ed25519-sha-256"}},"uri":"{}}}"}},"public_keys":["{}}}"]}}],"version":"2.0"}}'.format(content, public_key, public_key, uri, public_key)
