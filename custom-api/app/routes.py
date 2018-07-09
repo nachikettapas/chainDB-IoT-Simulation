@@ -5,6 +5,7 @@ from bigchaindb_driver.crypto import generate_keypair
 import json
 import pprint
 from pymongo import MongoClient
+from cryptoconditions import Fulfillment
 
 bdb_root_url = 'http://localhost:9984'
 bdb = BigchainDB(bdb_root_url)
@@ -393,9 +394,14 @@ def verify(reading_id):
     reading_text = json.dumps(reading['data']).replace(" ","")
     public_key = transaction['outputs'][0]['condition']['details']['public_key']
     uri = transaction['outputs'][0]['condition']['uri']
-    print(transaction, public_key, uri)
-    print(generate_message(reading_text, transaction, uri))
-    return "Reading verification of {} requested entailing the transaction {} ".format(reading_id, transaction)
+    # print()
+    fulfillment = Fulfillment.from_uri(transaction['inputs'][0]['fulfillment']).to_dict()
+    print(fulfillment)
+    signature = fulfillment['signature']
+    message=generate_message(reading_text, public_key, uri)
+    # print(transaction, public_key, uri)
+    # print(generate_message(reading_text, transaction, uri))
+    return "<b>Reading is:</b><br>{}<br><br> <b>The final Message Sent to encode using sha3-256 is:</b><br> {}<br><br><b>The public key is:</b><br> {}<br><br><b>The signature is:</b><br> {}".format(reading, message, public_key, signature)
 
 def generate_message(content, public_key, uri):
     return '{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}}}","type":"ed25519-sha-256"}},"uri":"{}}}"}},"public_keys":["{}}}"]}}],"version":"2.0"}}'.format(content, public_key, public_key, uri, public_key)
