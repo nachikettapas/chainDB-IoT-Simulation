@@ -406,7 +406,7 @@ def verify(reading_id):
 
 def generate_message(content, public_key, uri):
     content = rapidjson.dumps(content, skipkeys=False, ensure_ascii=False, sort_keys=True)
-    message = '{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}","type":"ed25519-sha-256"}},"uri":"{}"}},"public_keys":["{}"]}}],"version":"2.0"}}'.format(content, public_key, public_key, uri, public_key)
+    message = 'b\'{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}","type":"ed25519-sha-256"}},"uri":"{}"}},"public_keys":["{}"]}}],"version":"2.0"}}\''.format(content, public_key, public_key, uri, public_key)
     msg_list = []
     for m in message:
         print(m)
