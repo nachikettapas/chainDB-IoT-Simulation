@@ -402,7 +402,8 @@ def verify(reading_id):
     message=generate_message(reading['data'], public_key, uri)
     # print(transaction, public_key, uri)
     # print(generate_message(reading_text, transaction, uri))
-    return "<b>Reading is:</b><br>{}<br><br> <b>The final Message Sent to encode using sha3-256 is:</b><br> {}<br><br><b>The public key is:</b><br> {}<br><br><b>The signature is:</b><br> {}".format(reading, message, public_key, signature)
+    # return "<b>Reading is:</b><br>{}<br><br> <b>The final Message Sent to encode using sha3-256 is:</b><br> {}<br><br><b>The public key is:</b><br> {}<br><br><b>The signature is:</b><br> {}".format(reading, message, public_key, signature)
+    return json.dumps({"reading":str(reading),"message":str(message),"public_key":str(public_key),"signature":str(signature)})
 
 def generate_message(content, public_key, uri):
     content = rapidjson.dumps(content, skipkeys=False, ensure_ascii=False, sort_keys=True)
