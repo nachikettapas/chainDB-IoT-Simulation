@@ -971,6 +971,17 @@ li.complete:before {
     // verifyForm.classList.add('done');
     // 
     console.log("Verification Status");
+    var dataObject = {
+                "message":$('#input_hash').val(),
+                "hash": $('#input_hash').val(),
+                "public_key":$('#public_key').val(),
+                "signature":$('#signature').val()
+            }
+            $.ajax({   url: "http://localhost:5000/verify/signature",
+           type: 'POST',
+           dataType: 'json',
+           data: JSON.stringify(dataObject),
+           success: function (data)  {console.log(data) }});
     evt.preventDefault();
   });
 
