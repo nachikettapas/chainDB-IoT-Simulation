@@ -402,6 +402,7 @@ def verify(reading_id):
     print(fulfillment)
     signature = fulfillment['signature']
     message=generate_message(reading['data'], public_key, uri)
+    print(message)
     # print(transaction, public_key, uri)
     # print(generate_message(reading_text, transaction, uri))
     # return "<b>Reading is:</b><br>{}<br><br> <b>The final Message Sent to encode using sha3-256 is:</b><br> {}<br><br><b>The public key is:</b><br> {}<br><br><b>The signature is:</b><br> {}".format(reading, message, public_key, signature)
@@ -409,7 +410,7 @@ def verify(reading_id):
 
 def generate_message(content, public_key, uri):
     content = rapidjson.dumps(content, skipkeys=False, ensure_ascii=False, sort_keys=True)
-    message = 'b\'{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}","type":"ed25519-sha-256"}},"uri":"{}"}},"public_keys":["{}"]}}],"version":"2.0"}}\''.format(content, public_key, public_key, uri, public_key)
+    message = '{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}","type":"ed25519-sha-256"}},"uri":"{}"}},"public_keys":["{}"]}}],"version":"2.0"}}'.format(content, public_key, public_key, uri, public_key)
     msg_list = []
     for m in message:
         print(m)
@@ -424,12 +425,18 @@ def verification_form():
 def generate_hash():
     if request.method == 'POST':
         message_string = request.get_data()
+        print(str(message_string))
         return sha3_256(message_string).hexdigest()
 
 @app.route('/verify/signature', methods=['POST'])
 def verify_signature():
     if request.method == 'POST':
         request_json = json.loads(request.get_data())
-        print(request_json)
-        return json.dumps(request_json)
+        # print(request_json['message'])
+        request_json['type']='ed25519-sha-256'
+        fulfillment_object = Fulfillment.from_dict(request_json)
+        encoded_message = sha3_256(request_json['message'].encode()).digest()
+        # encoded_message = sha3_256(request_json['hash'].encode())
+        response = {"result": fulfillment_object.validate(message=encoded_message)}
+        return json.dumps(response)
 # def reorder_content(content, public_key, uri):

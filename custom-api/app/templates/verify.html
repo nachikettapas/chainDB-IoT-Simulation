@@ -35,7 +35,7 @@
     </body>
     <script>
         $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
-            console.log(data['reading']);
+            console.log(data['message']);
             $('#reading').val(data['reading']);
             $('#message').val(data['message']);
             $('#input_hash').val(data['message']);
@@ -58,6 +58,7 @@
             // data.push({key: "signature", value:$('#signature').innerHTML});
             var dataObject = {
                 "message":$('#input_hash').val(),
+                "hash": $('#generated_hash').val(),
                 "public_key":$('#public_key').val(),
                 "signature":$('#signature').val()
             }
