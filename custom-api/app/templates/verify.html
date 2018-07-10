@@ -19,16 +19,30 @@
             <b>Signature</b>
             <div id="signature"></div>
         </div>
+        <div>
+            You can generate your sha3-256 hash of data from here or an external source.
+            <input type="textarea" id="input_hash">
+            <input type="textarea" id="generated_hash" disabled="true">
+            <input type="button" value="submit" id="generate_hash">
+        </div>
     </body>
     <script>
         $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
             console.log(data['reading']);
             $('#reading').append(data['reading']);
             $('#message').append(data['message']);
+            $('#input_hash').attr('value',data['message']);
             $('#public_key').append(data['public_key']);
             $('#signature').append(data['signature']);
-
-
+            $.post("http://localhost:5000/hash", data['message'], function(response){
+                console.log(response);
+            });
+        })
+        $('#generate_hash').on('click', function(){
+            $.post("http://localhost:5000/hash", $('#input_hash').val(), function(response){
+                console.log(response);
+                $('#generated_hash').attr('value',response);
+            });
         })
     </script>
 </html>

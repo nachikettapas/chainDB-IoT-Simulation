@@ -419,4 +419,10 @@ def generate_message(content, public_key, uri):
 def verification_form():
     return render_template('verify.html')
 
+@app.route('/hash', methods=['POST'])
+def generate_hash():
+    if request.method == 'POST':
+        message_string = request.get_data()
+        return message_string
+
 # def reorder_content(content, public_key, uri):
