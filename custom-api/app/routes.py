@@ -425,7 +425,7 @@ def verification_form():
 def generate_hash():
     if request.method == 'POST':
         message_string = request.get_data()
-        print(str(message_string))
+        print (bytes.fromhex(sha3_256(message_string).hexdigest()))
         return sha3_256(message_string).hexdigest()
 
 @app.route('/verify/signature', methods=['POST'])

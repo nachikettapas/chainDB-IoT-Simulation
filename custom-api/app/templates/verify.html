@@ -41,16 +41,24 @@
             $('#input_hash').val(data['message']);
             $('#public_key').val(data['public_key']);
             $('#signature').val(data['signature']);
-            $.post("http://localhost:5000/hash", data['message'], function(response){
-                console.log(response);
-            });
         })
         $('#generate_hash').on('click', function(){
-            $.post("http://localhost:5000/hash", $('#input_hash').val(), function(response){
-                console.log(response);
-                $('#generated_hash').val(response);
-            });
+            // var dataObject =  {"input":}
+            console.log($('#input_hash').val())
+            $.ajax({
+                url: "http://localhost:5000/hash",
+                type: 'POST',
+                dataType: 'text',
+                data: $('#input_hash').val(),
+                success: function(response) {
+                    $('#generated_hash').val(response);      
+                }
         })
+            // $.post("http://localhost:5000/hash", $('#input_hash').val(), function(response){
+            //     console.log(response);
+            //     $('#generated_hash').val(response);
+            // });
+        });
         $('#verify_signature').on('click', function(){
             // data = new Array() 
             // data.push({key: "message", value: $('#input_hash').val()});
