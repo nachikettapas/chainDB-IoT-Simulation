@@ -996,6 +996,14 @@ li.complete:before {
   window.addEventListener('load', function() {
     // passwordForm.classList.add('visible');
     initialForm.classList.add('visible');
+    $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
+            console.log(data['message']);
+            $('#reading').val(data['reading']);
+            $('#message').val(data['message']);
+            $('#input_hash').val(data['message']);
+            $('#public_key').val(data['public_key']);
+            $('#signature').val(data['signature']);
+        })
 
 
 
