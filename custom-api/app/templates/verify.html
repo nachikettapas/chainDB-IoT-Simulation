@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Verify Data Point</title>
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+    </head>
+    <body>
+        Verification page.
+        <div class="main-content">
+            <div id="reading"></div>
+            <div id="message"></div>
+            <div id="public_key"></div>
+            <div id="signature"></div>
+        </div>
+    </body>
+    <script>
+        $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
+            console.log(data);
+        })
+    </script>
+</html>

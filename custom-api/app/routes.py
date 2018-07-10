@@ -7,6 +7,7 @@ import pprint
 import rapidjson
 from pymongo import MongoClient
 from cryptoconditions import Fulfillment
+from flask import render_template
 
 bdb_root_url = 'http://localhost:9984'
 bdb = BigchainDB(bdb_root_url)
@@ -414,5 +415,8 @@ def generate_message(content, public_key, uri):
         msg_list.append(m)
     message = "".join(str(m) for m in msg_list)
     return message
+@app.route('/verify', methods = ['GET'])
+def veri():
+    return render_template('verify.html')
 
 # def reorder_content(content, public_key, uri):
