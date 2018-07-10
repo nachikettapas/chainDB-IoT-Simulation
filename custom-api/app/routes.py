@@ -426,4 +426,9 @@ def generate_hash():
         message_string = request.get_data()
         return sha3_256(message_string).hexdigest()
 
+@app.route('/verify/signature', methods=['POST'])
+def verify_signature():
+    if request.method == 'POST':
+        request_json = json.loads(request.get_data())
+        return json.dumps(request_json)
 # def reorder_content(content, public_key, uri):
