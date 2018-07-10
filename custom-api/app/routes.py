@@ -430,5 +430,6 @@ def generate_hash():
 def verify_signature():
     if request.method == 'POST':
         request_json = json.loads(request.get_data())
+        print(request_json)
         return json.dumps(request_json)
 # def reorder_content(content, public_key, uri):

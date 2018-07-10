@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Verify Data Point</title>
+        <style>input{width:100%}</style>
         <script
   src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -9,15 +10,14 @@
     <body>
         Verification page.
         <div class="main-content">
-            <b>Reading:</b>
-            <div id="reading">
-            </div>
-            <b>Message:</b>
-            <div id="message"></div>
-            <b>Public Key</b>
-            <div id="public_key"></div>
-            <b>Signature</b>
-            <div id="signature"></div>
+            <b>Reading:</b><br>
+            <input type="text" id="reading">
+            <b>Message:</b><br>
+            <input type="text" id="message">
+            <b>Public Key</b><br>
+            <input type="text" id="public_key">
+            <b>Signature</b><br>
+            <input type="text" id="signature">
         </div>
         <div>
             You can generate your sha3-256 hash of data from here or an external source.<br>
@@ -26,15 +26,21 @@
             <textarea rows="2" cols="100" id="generated_hash" disabled="true"></textarea>
             <input type="button" value="submit" id="generate_hash">
         </div>
+        <div>
+            <input type="button" value="Verify" id = "verify_signature">
+            <div id="verification result">
+
+            </div>
+        </div>
     </body>
     <script>
         $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
             console.log(data['reading']);
-            $('#reading').append(data['reading']);
-            $('#message').append(data['message']);
+            $('#reading').val(data['reading']);
+            $('#message').val(data['message']);
             $('#input_hash').val(data['message']);
-            $('#public_key').append(data['public_key']);
-            $('#signature').append(data['signature']);
+            $('#public_key').val(data['public_key']);
+            $('#signature').val(data['signature']);
             $.post("http://localhost:5000/hash", data['message'], function(response){
                 console.log(response);
             });
@@ -45,5 +51,24 @@
                 $('#generated_hash').val(response);
             });
         })
+        $('#verify_signature').on('click', function(){
+            // data = new Array() 
+            // data.push({key: "message", value: $('#input_hash').val()});
+            // data.push({key: "public_key", value:$('#public_key').innerHTML});
+            // data.push({key: "signature", value:$('#signature').innerHTML});
+            var dataObject = {
+                "message":$('#input_hash').val(),
+                "public_key":$('#public_key').val(),
+                "signature":$('#signature').val()
+            }
+            $.ajax({   url: "http://localhost:5000/verify/signature",
+           type: 'POST',
+           dataType: 'json',
+           data: JSON.stringify(dataObject),
+           success: function (data)  {console.log(data) }});
+            // $.post("http://localhost:5000/verify/signature", JSON.stringify(data), function(response){
+            //     console.log(response);
+            // })      
+        });
     </script>
 </html>
