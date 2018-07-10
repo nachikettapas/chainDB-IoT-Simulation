@@ -416,7 +416,7 @@ def generate_message(content, public_key, uri):
     message = "".join(str(m) for m in msg_list)
     return message
 @app.route('/verify', methods = ['GET'])
-def veri():
+def verification_form():
     return render_template('verify.html')
 
 # def reorder_content(content, public_key, uri):

@@ -9,15 +9,26 @@
     <body>
         Verification page.
         <div class="main-content">
-            <div id="reading"></div>
+            <b>Reading:</b>
+            <div id="reading">
+            </div>
+            <b>Message:</b>
             <div id="message"></div>
+            <b>Public Key</b>
             <div id="public_key"></div>
+            <b>Signature</b>
             <div id="signature"></div>
         </div>
     </body>
     <script>
         $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
-            console.log(data);
+            console.log(data['reading']);
+            $('#reading').append(data['reading']);
+            $('#message').append(data['message']);
+            $('#public_key').append(data['public_key']);
+            $('#signature').append(data['signature']);
+
+
         })
     </script>
 </html>
