@@ -334,6 +334,7 @@ def sensor_by_id(sensor_id):
         print(json.loads(request.get_data()))
         # curl -d "{'temp':'30'}" -H "Content-Type: application/json" -X POST  http://localhost:500
         alice, bob = generate_keypair(), generate_keypair()
+        print(alice,bob)
         bicycle_asset = {
             'data': json.loads(request.get_data())
         }
@@ -419,7 +420,7 @@ def generate_message(content, public_key, uri):
     return message
 @app.route('/verify', methods = ['GET'])
 def verification_form():
-    return render_template('verify.html')
+    return render_template('verify-old.html')
 
 @app.route('/hash', methods=['POST'])
 def generate_hash():

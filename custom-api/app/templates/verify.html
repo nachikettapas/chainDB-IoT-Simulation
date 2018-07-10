@@ -776,6 +776,8 @@ li.complete:before {
             <input type="text" id="input_hash">
             <input type="submit" id="verify_signature" value="Verify Signature">
              <button id="go-back">Go back</button>
+            <label id="status"></label>
+             
           </form>
           <form id="entry-data" >
             <label for="reading">Reading</label>
@@ -981,7 +983,21 @@ li.complete:before {
            type: 'POST',
            dataType: 'json',
            data: JSON.stringify(dataObject),
-           success: function (data)  {console.log(data) }});
+           success: function (data)  {
+               console.log(data);
+               let success = data['result'];
+               if(success){
+                //    console.log("Form is temporary. Class is permanent.")
+                $('body').css({'background':'#66CD00'});
+                $('#status').append("SUCCESS. Verification Complete.");
+                $('#status').show();
+               }
+               else{
+                   $('body').css({'background':'#F08080'});
+                   $('#status').append("Failure :( Signature could not be verified.");
+                   $('#status').show();
+               }
+            }});
     evt.preventDefault();
   });
 
@@ -1007,6 +1023,7 @@ li.complete:before {
   window.addEventListener('load', function() {
     // passwordForm.classList.add('visible');
     initialForm.classList.add('visible');
+    $('#status').hide();
     $.getJSON("http://localhost:5000/verify/6147b49e1e8bd2163c80dd1a55e83da7cb6634c33323600cf8676b99af415c96", function(data){
             console.log(data['message']);
             $('#reading').val(data['reading']);
@@ -1015,9 +1032,6 @@ li.complete:before {
             $('#public_key').val(data['public_key']);
             $('#signature').val(data['signature']);
         })
-
-
-
     setForm();
   });
 })();
