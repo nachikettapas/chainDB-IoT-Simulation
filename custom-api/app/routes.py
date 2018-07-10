@@ -425,7 +425,7 @@ def verification_form():
 def generate_hash():
     if request.method == 'POST':
         message_string = request.get_data()
-        print (bytes.fromhex(sha3_256(message_string).hexdigest()))
+        # print (bytes.fromhex(sha3_256(message_string).hexdigest()))
         return sha3_256(message_string).hexdigest()
 
 @app.route('/verify/signature', methods=['POST'])
@@ -436,7 +436,9 @@ def verify_signature():
         request_json['type']='ed25519-sha-256'
         fulfillment_object = Fulfillment.from_dict(request_json)
         encoded_message = sha3_256(request_json['message'].encode()).digest()
-        # encoded_message = sha3_256(request_json['hash'].encode())
-        response = {"result": fulfillment_object.validate(message=encoded_message)}
+        # print(request_json['hash'])
+        decoded_message = bytes.fromhex(request_json['hash'])
+        # response = {"result": fulfillment_object.validate(message=encoded_message)}
+        response = {"result": fulfillment_object.validate(message=decoded_message)}        
         return json.dumps(response)
 # def reorder_content(content, public_key, uri):
