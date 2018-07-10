@@ -5,7 +5,10 @@
   <meta charset="UTF-8">
   <title>Better Password Form</title>
   
-  
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
 <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:400,100'>
 <style>
@@ -736,7 +739,7 @@ li.complete:before {
 
           <div id="all-done">All done</div>
 
-          <form id="verify-new-password">
+          <!-- <form id="verify-new-password">
             <label for="verify-password">Verify your password</label>
             <input placeholder="Enter your password again" type="password" id="verify-password" name="password-to-verify">
             <ul>
@@ -761,7 +764,7 @@ li.complete:before {
             </ul> -->
 
             
-          </form>
+          </form> -->
           <form id="verify-form">
             <label for="message2">Message</label>
             <input type="text" id="message2" disabled="true">
@@ -769,8 +772,8 @@ li.complete:before {
             <input type="text" id="public_key2" disabled="true">
             <label for="signature2">Signature</label>
             <input type="text" id="signature2" disabled="true">
-            <label for="enoded_hash">Encoded Hash</label>
-            <input type="text" id="encoded_hash">
+            <label for="input_hash">Encoded Hash</label>
+            <input type="text" id="input_hash">
             <input type="submit" id="verify_signature" value="Verify Signature">
              <button id="go-back">Go back</button>
           </form>
@@ -938,14 +941,25 @@ li.complete:before {
 
   initialForm.addEventListener('submit', function(evt) {
     initialForm.classList.add('done');
+
     setTimeout(function() {
       // verifyPasswordForm.reset();
       // verifyPasswordForm.classList.add('visible');
       // verifyPasswordInput.focus();
       // matchesPassword.classList.remove('complete');
+      console.log($('#input_hash').val());
+    $.ajax({
+            url: "http://localhost:5000/hash",
+            type: 'POST',
+            dataType: 'text',
+            data: $('#input_hash').val(),
+            success: function(response) {
+                $('#input_hash').val(response);      
+        }});
       document.getElementById("message2").value=(messageInput.value);
       document.getElementById("public_key2").value=publicKeyInput.value;
       document.getElementById("signature2").value=signatureInput.value;
+      
       // $("#public_key2").val($("#public_key").val());
       // $("#signature2").val($('#signature').val())
       verifyForm.classList.add('visible');
