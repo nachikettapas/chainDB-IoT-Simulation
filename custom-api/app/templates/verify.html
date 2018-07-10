@@ -20,9 +20,10 @@
             <div id="signature"></div>
         </div>
         <div>
-            You can generate your sha3-256 hash of data from here or an external source.
-            <input type="textarea" id="input_hash">
-            <input type="textarea" id="generated_hash" disabled="true">
+            You can generate your sha3-256 hash of data from here or an external source.<br>
+            <textarea rows="4" cols="100" id="input_hash"></textarea><br><br>
+            <b>Generated sha3-256 hash:</b><br>
+            <textarea rows="2" cols="100" id="generated_hash" disabled="true"></textarea>
             <input type="button" value="submit" id="generate_hash">
         </div>
     </body>
@@ -31,7 +32,7 @@
             console.log(data['reading']);
             $('#reading').append(data['reading']);
             $('#message').append(data['message']);
-            $('#input_hash').attr('value',data['message']);
+            $('#input_hash').val(data['message']);
             $('#public_key').append(data['public_key']);
             $('#signature').append(data['signature']);
             $.post("http://localhost:5000/hash", data['message'], function(response){
@@ -41,7 +42,7 @@
         $('#generate_hash').on('click', function(){
             $.post("http://localhost:5000/hash", $('#input_hash').val(), function(response){
                 console.log(response);
-                $('#generated_hash').attr('value',response);
+                $('#generated_hash').val(response);
             });
         })
     </script>

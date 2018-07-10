@@ -8,6 +8,7 @@ import rapidjson
 from pymongo import MongoClient
 from cryptoconditions import Fulfillment
 from flask import render_template
+from sha3 import sha3_256
 
 bdb_root_url = 'http://localhost:9984'
 bdb = BigchainDB(bdb_root_url)
@@ -423,6 +424,6 @@ def verification_form():
 def generate_hash():
     if request.method == 'POST':
         message_string = request.get_data()
-        return message_string
+        return sha3_256(message_string).hexdigest()
 
 # def reorder_content(content, public_key, uri):
