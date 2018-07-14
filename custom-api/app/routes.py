@@ -335,17 +335,18 @@ def sensor_by_id(sensor_id):
         # curl -d "{'temp':'30'}" -H "Content-Type: application/json" -X POST  http://localhost:500
         alice, bob = generate_keypair(), generate_keypair()
         print(alice,bob)
-        bicycle_asset = {
-            'data': json.loads(request.get_data())
-        }
-        prepared_creation_tx = bdb.transactions.prepare(
-        operation='CREATE',
-        signers=alice.public_key,
-        asset=bicycle_asset)
-        fulfilled_creation_tx = bdb.transactions.fulfill(
-        prepared_creation_tx,
-        private_keys=alice.private_key)
-        sent_creation_tx = bdb.transactions.send_commit(fulfilled_creation_tx)
+        for singleReading in json.loads(request.get_data()):
+            bicycle_asset = {
+                'data': singleReading
+            }
+            prepared_creation_tx = bdb.transactions.prepare(
+            operation='CREATE',
+            signers=alice.public_key,
+            asset=bicycle_asset)
+            fulfilled_creation_tx = bdb.transactions.fulfill(
+            prepared_creation_tx,
+            private_keys=alice.private_key)
+            sent_creation_tx = bdb.transactions.send_commit(fulfilled_creation_tx)
 
         return request.get_data()
 
