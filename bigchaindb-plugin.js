@@ -45,6 +45,8 @@ exports.main = function (arguments){
     api = require(LIGHTNINGROD_HOME + '/modules/plugins-manager/plugin-apis');
 	logger = api.getLogger();
 	position = api.getPosition();
+	board_id = api.getBoardId();
+	logger.info("Board ID is:" + board_id);	
 
 
     logger.info("BigchainDB plugin initialising...");
