@@ -373,7 +373,8 @@ def drawGraph(sensor_id):
     for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id}):
         graphPoint={}
         try:
-            graphPoint['y']=point['data']['Temperature']
+            readingType = point['data']['type']            
+            graphPoint['y']=point['data'][readingType]
             graphPoint['x']=point['data']['Date']
             graphPoint['unique'] = point['id']
             points.append(graphPoint)
