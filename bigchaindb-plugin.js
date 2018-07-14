@@ -7,6 +7,8 @@ exports.main = function (arguments){
 	var PLG_NAME = "Bigchaindb";
 	var timer = arguments.timer;
 	var m_authid = arguments.m_authid;
+	var ckan_addr = 'smartme-data.unime.it';
+	var ckan_host = 'http://'+ckan_addr;
 	temp_conf = arguments.temp_sensor;
     lux_conf = arguments.lux_sensor;
     hum_conf = arguments.hum_sensor;
@@ -46,10 +48,65 @@ exports.main = function (arguments){
 	logger = api.getLogger();
 	position = api.getPosition();
 	board_id = api.getBoardId();
-	logger.info("Board ID is:" + board_id);	
+	logger.info("Board ID is:" + board);	
 
 
-    logger.info("BigchainDB plugin initialising...");
+	logger.info("BigchainDB plugin initialising...");
+	
+	getBoardSensors = function(id){
+
+		requestify.get(ckan_host + '/api/rest/dataset/'+id).then( function(response) {
+		logger.info("[PLG-"+PLG_NAME+"] - Board Sensor Data recovered:");
+
+			var data = response.getBody();
+
+			for(var resource=0; resource < data.resources.length; resource++) {
+
+				(function(resource) {
+	
+					if (data.resources[resource].name == "temperature"){
+	
+						temp_resourceid = data.resources[resource].id;
+						logger.info("[PLG-"+PLG_NAME+"] --> TEMP R_id: "+temp_resourceid);
+	
+					} else if (data.resources[resource].name == "brightness"){
+	
+						lux_resourceid = data.resources[resource].id;
+						logger.info("[PLG-"+PLG_NAME+"] --> LUX R_id: "+lux_resourceid);
+	
+					} else if (data.resources[resource].name == "humidity"){
+	
+						hum_resourceid = data.resources[resource].id;
+						logger.info("[PLG-"+PLG_NAME+"] --> HUM R_id: "+hum_resourceid);
+	
+	
+					} else if (data.resources[resource].name == "gas"){
+	
+						gas_resourceid = data.resources[resource].id;
+						logger.info("[PLG-"+PLG_NAME+"] --> GAS R_id: "+gas_resourceid);
+	
+					} else if (data.resources[resource].name == "pressure"){
+	
+						bar_resourceid = data.resources[resource].id;
+						logger.info("[PLG-"+PLG_NAME+"] --> BAR R_id: "+bar_resourceid);
+	
+	
+					} else if (data.resources[resource].name == "noise"){
+	
+						noise_resourceid = data.resources[resource].id;
+						logger.info("[PLG-"+PLG_NAME+"] --> NOISE R_id: "+noise_resourceid);
+	
+	
+					}
+	
+				})(resource);  // end of the function(i)
+	
+			}
+
+
+		});
+
+	};
     generateData = function(sensor_list) {
 		if(lux_conf.enabled == "true"){
 
@@ -139,59 +196,75 @@ exports.main = function (arguments){
 
 					if (sensor_list[i] == "temp" && temp_conf.enabled == "true") {
 						record.push({
+							resource_id : temp_resourceid,
 							Date: timestamp,
 							Temperature: temp,
 							Altitude: position.altitude,
 							Latitude: position.latitude,
-							Longitude: position.longitude
+							Longitude: position.longitude,
+							entity: 'reading',
+							type : 'Temperature'
+
 						});
 						logger.info("Temperature is:" + temp);
 					}
 					else if (sensor_list[i] == "lux" && lux_conf.enabled == "true") {
 						record.push({
+							resource_id : lux_resourceid,							
 							Date: timestamp,
 							Brightness: ldr,
 							Altitude: position.altitude,
 							Latitude: position.latitude,
-							Longitude: position.longitude
+							Longitude: position.longitude,
+							entity: 'reading',
+							type : 'Brightness'
 						});
 							logger.info("Brightness: " + ldr + " (lux)");
 					}
 					else if (sensor_list[i] == "hum" && hum_conf.enabled == "true") {
 						record.push({
+							resource_id : hum_resourceid,							
 							Date: timestamp,
 							Humidity: relativeHumidity,
 							Altitude: position.altitude,
 							Latitude: position.latitude,
-							Longitude: position.longitude
+							Longitude: position.longitude,
+							entity: 'reading',
+							type : 'Humidity'
 						});
 							logger.info("Humidity " + relativeHumidity + " percent (with " + temp + " °C)");
 					}
 					else if (sensor_list[i] == "noise" && noise_conf.enabled == "true") {
 						record.push({
+							resource_id : noise_resourceid,							
 							Date: timestamp,
 							Noise: amplitude,
 							Altitude: position.altitude,
 							Latitude: position.latitude,
-							Longitude: position.longitude
+							Longitude: position.longitude,
+							entity: 'reading',
+							type : 'Noise'
 						});
 						logger.info("NOISE amplitude: " + amplitude);
 						
 					}
 					else if (sensor_list[i] == "bar" && bar_conf.enabled == "true") {
 						record.push({
+							resource_id : bar_resourceid,							
 							Date: timestamp,
 							Pressure: pressure,
 							Altitude: position.altitude,
 							Latitude: position.latitude,
-							Longitude: position.longitude
+							Longitude: position.longitude,
+							entity: 'reading',
+							type : 'Pressure'
 						});
 						logger.info("Pressure: " + pressure + " hPa");
 					}
 					else {
 						logger.warn("[PLG-"+PLG_NAME+"] - NO SENSORS!\n\n");
 					}
-					requestify.post('http://172.17.5.188:5000/sensor', record)
+					requestify.post('http://172.17.5.188:5000/sensors/93c39ba9-74cf-4461-b60a-9a206c7fc416', record)
 					.then(function(response) {
 					// Get the response body (JSON parsed or jQuery object for XMLs)
 					logger.info(response.getBody());
@@ -210,9 +283,9 @@ exports.main = function (arguments){
 
 	};
 	var sensor_list = ['temp', 'lux', 'hum', 'noise', 'bar'];
-    
+    getBoardSensors(board_id);
 	board.connect(function() {
-
+		
 
 		if (noise_conf.enabled == "true") {
 
