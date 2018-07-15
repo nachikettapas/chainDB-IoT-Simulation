@@ -5,7 +5,7 @@ from bigchaindb_driver.crypto import generate_keypair
 import json
 import pprint
 import rapidjson
-from pymongo import MongoClient
+from pymongo import MongoClient, ASCENDING, DESCENDING
 from cryptoconditions import Fulfillment
 from flask import render_template
 from sha3 import sha3_256
@@ -371,7 +371,7 @@ def sensor_by_id(sensor_id):
 @app.route('/sensors/<sensor_id>/graph', methods=['GET'])
 def drawGraph(sensor_id):
     points = []
-    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id}):
+    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id}).limit(150).sort('data.Date', ASCENDING):
         graphPoint={}
         try:
             readingType = point['data']['type']            
