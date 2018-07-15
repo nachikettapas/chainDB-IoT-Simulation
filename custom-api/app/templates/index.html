@@ -152,6 +152,10 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
                   <label>Text</label>
                   <textarea id="input_hash"></textarea>
                </div>
+               <div class="field step-3">
+                <label>Text</label>
+                <input type="text" name="generated_hash" id="generated_hash">
+             </div>
                <div class="ui animated blue button step-1" id="step-1-button" tabindex="0">
   <div class="visible content">Proceed</div>
   <div class="hidden content">
@@ -290,9 +294,21 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 	});
 	$('#step-2-button').on('click', function(){
 		step=3;
-		topStep2.removeClass('active');
-		topStep2.addClass('completed');
+    topStep2.removeClass('active');
+    topStep2.addClass('completed');
+    console.log($('#input_hash').val())
+        $.ajax({
+            url: "http://localhost:5000/hash",
+            type: 'POST',
+            dataType: 'text',
+            data: $('#input_hash').val(),
+            success: function(response) {
+                $('#generated_hash').val(response);
+                console.log(response);
+            }
+    });
     syncSteps();
+
 	});
 	$('#step-3-button-b').on('click', function(){
 		step=2;
@@ -302,7 +318,18 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 		syncSteps();
 	});
 	$('#step-3-button').on('click', function(){
-		step=4;
+    step=4;
+    var dataObject = {
+                "message":$('#input_hash').val(),
+                "hash": $('#generated_hash').val(),
+                "public_key":$('#public_key').val(),
+                "signature":$('#signature').val()
+            }
+            $.ajax({   url: "http://localhost:5000/verify/signature",
+           type: 'POST',
+           dataType: 'json',
+           data: JSON.stringify(dataObject),
+           success: function (data)  {console.log(data) }});
 		topStep3.removeClass('active');
 		topStep3.addClass('completed');
 		// topStep2.removeClass('completed');
