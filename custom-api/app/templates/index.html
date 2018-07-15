@@ -21,6 +21,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
  * Author : Louis Barranqueiro - https://github.com/LouisBarranqueiro
  */
 
+
 .hljs {
   display: block;
   background: white;
@@ -227,7 +228,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
                       The hash visible in the field <em>Message Hash</em> is the hash generated using SmartME APIs. It is an editable field, and you may enter your own hash generated from an independent source.
                 </div>
                 </div>
-                <div class="ui icon success message step-4">
+                <div class="ui icon success message" id="success">
                   <i class="check circle outline icon"></i>
                   <div class="content">
                     <div class="header">
@@ -236,6 +237,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
                     The verification of the reading was successful against the public key and signature!
                 </div>
                 </div>
+                <div class="ui icon negative message" id="failure">
+                    <i class="frown outline icon"></i>
+                    <div class="content">
+                      <div class="header">
+                        Failure!!
+                      </div>
+                      The verification of the reading has failed against the public key and signature!
+                  </div>
+                  </div>
 
             </p>
          </div>
@@ -282,7 +292,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 			$(".step-2").hide(400);
 			$(".step-1").show(400);
 			$(".step-3").hide();
-			$(".step-4").hide();
+      $(".step-4").hide();
+      $("#success").hide();
+      $("#failure").hide();
 		}
 		else if(step==2) {
 			$(".step-1").hide(400);
@@ -303,7 +315,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 			$(".step-2").hide(400);
 			$(".step-3").show(400);
 			$(".step-4").hide(400);
-			topStep3.toggleClass("active");
+      topStep3.toggleClass("active");
+      $("#success").hide();
+      $("#failure").hide();
 			if(topStep3.hasClass("disabled")) {
 				topStep3.removeClass("disabled");
 			}
@@ -367,9 +381,17 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
            type: 'POST',
            dataType: 'json',
            data: JSON.stringify(dataObject),
-           success: function (data)  {console.log(data) }});
-		topStep3.removeClass('active');
-		topStep3.addClass('completed');
+           success: function (data)  {
+             console.log(data);
+             if(data['result']==true) {
+              topStep3.removeClass('active');
+              topStep3.addClass('completed');
+              $('#success').show();
+             }
+             else {
+               $("#failure").show();
+             }
+            }});
 		// topStep2.removeClass('completed');
 		syncSteps();
 	});
