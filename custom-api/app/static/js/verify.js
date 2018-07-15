@@ -1,18 +1,20 @@
-$('.ui.accordion')
-    .accordion();
+
 var id = getParameterByName('id');
 $.getJSON("http://localhost:5000/verify/" + id, function(data) {
     console.log(data['reading']);
     // JSON.stringify(jsObj, null, "\t");
     $('#reading').append(JSON.stringify(JSON.parse(data['reading']), null, "\t"));
-    readingFormatter(data['reading']);
-    $('#message').val(data['message']);
+    // readingFormatter(data['reading']);
+    // console.log(data['message']);
+    $('#message').append(data['message']);
     $('#input_hash').val(data['message']);
     $('#public_key').val(data['public_key']);
     $('#signature').val(data['signature']);
     hljs.initHighlightingOnLoad();
 
 });
+$('.ui.accordion')
+    .accordion();
 console.log($('#input_hash').val())
 $.ajax({
     url: "http://localhost:5000/hash",
