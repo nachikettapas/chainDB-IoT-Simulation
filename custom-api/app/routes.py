@@ -397,29 +397,32 @@ def drawGraph(sensor_id):
 def verify(reading_id):
     transaction = transactions.find_one({"id":reading_id})
     reading = collection.find_one({"id":reading_id})
-    # reading_text = json.dumps(reading['data']).replace(" ","")
+    formatted_reading = format_reading(reading)
     public_key = transaction['outputs'][0]['condition']['details']['public_key']
     uri = transaction['outputs'][0]['condition']['uri']
-    # print()
     fulfillment = Fulfillment.from_uri(transaction['inputs'][0]['fulfillment']).to_dict()
     print(fulfillment)
     signature = fulfillment['signature']
     message=generate_message(reading['data'], public_key, uri)
-    print(message)
-    # print(transaction, public_key, uri)
-    # print(generate_message(reading_text, transaction, uri))
-    # return "<b>Reading is:</b><br>{}<br><br> <b>The final Message Sent to encode using sha3-256 is:</b><br> {}<br><br><b>The public key is:</b><br> {}<br><br><b>The signature is:</b><br> {}".format(reading, message, public_key, signature)
-    return json.dumps({"reading":str(reading),"message":str(message),"public_key":str(public_key),"signature":str(signature)})
+    return json.dumps({"reading":formatted_reading,"message":str(message),"public_key":str(public_key),"signature":str(signature)})
 
 def generate_message(content, public_key, uri):
     content = rapidjson.dumps(content, skipkeys=False, ensure_ascii=False, sort_keys=True)
     message = '{{"asset":{{"data":{}}},"id":null,"inputs":[{{"fulfillment":null,"fulfills":null,"owners_before":["{}"]}}],"metadata":null,"operation":"CREATE","outputs":[{{"amount":"1","condition":{{"details":{{"public_key":"{}","type":"ed25519-sha-256"}},"uri":"{}"}},"public_keys":["{}"]}}],"version":"2.0"}}'.format(content, public_key, public_key, uri, public_key)
     msg_list = []
-    for m in message:
-        print(m)
-        msg_list.append(m)
-    message = "".join(str(m) for m in msg_list)
     return message
+
+def format_reading(reading):
+    reading = reading['data']
+    print(reading)
+    formatted_reading = {}
+    formatted_reading[reading['type']]=reading[reading['type']]
+    formatted_reading['Altitude'] = reading['Altitude']
+    formatted_reading['Longitude'] = reading['Longitude']
+    formatted_reading['Latitude'] = reading['Latitude']
+    formatted_reading['Date'] = reading['Date']
+    return json.dumps(formatted_reading)
+
 @app.route('/verify', methods = ['GET'])
 def verification_form():
     # return render_template('verify-old.html')
