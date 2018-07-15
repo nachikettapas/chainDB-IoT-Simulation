@@ -422,7 +422,9 @@ def generate_message(content, public_key, uri):
     return message
 @app.route('/verify', methods = ['GET'])
 def verification_form():
-    return render_template('verify-old.html')
+    # return render_template('verify-old.html')
+    return render_template('index.html')
+    
 
 @app.route('/hash', methods=['POST'])
 def generate_hash():
