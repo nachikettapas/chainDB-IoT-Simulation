@@ -93,7 +93,7 @@
    $(document).ready(function () {
    var flag_first_load = true;
    
-     	// Support functions
+      // Support functions
    // inserting marks from the BOARDS list.
         var taxi_icon = L.icon({
                iconUrl: "img/taxi_marker.png",
@@ -133,10 +133,10 @@
            var board_spente = [""]; //,  "sme-00-0006 - Policlinico Universitario", "sme-00-0016 - Villa Pace"];
    
            jcall.done(function (data) {
-           	console.log(data.result);
+            console.log(data.result);
    
                $.each(data.result, function (k, v) {
-               	console.log("K: "+k +"V: "+ v);
+                console.log("K: "+k +"V: "+ v);
                    extras = v.extras;
                    var lat;
                    var long;
@@ -161,7 +161,7 @@
                        });
    
                        if (extras.length) {
-                       	console.log(extras)
+                        console.log(extras)
                            for (var i = 0; i < extras.length; i++) {
                                var record = extras[i];
                                switch (record.key) {
@@ -191,7 +191,7 @@
                            for (var j = 0; j < sensori.length; j++) {
                                if (sensori[j].name != "sensors") {
                                    var sensor_url = (sensori[j].name == "gas") ? "" : 'pack_name=' + pack.name + '&id=' + sensori[j].id + '&limit=<?=$limit?>&sensor=' + sensori[j].name;
-                                   									console.log("Sensor url: " + sensor_url)
+                                                    console.log("Sensor url: " + sensor_url)
    
                                    var padding = (sensori[j].name == "gas") ? " Coming Soon" : "";
    
@@ -255,7 +255,7 @@
    //******************************************************************************************************************************
    
    
-   // Accept input tag, marker icon, array that will contain all markers and marker layers	
+   // Accept input tag, marker icon, array that will contain all markers and marker layers  
    
    function retrieve_data_and_create_markers(tag, icon, array_markers, layer){
    
@@ -282,243 +282,243 @@
    var label = "";
    
    for(l=0; l<package.extras.length; l++){
-   	if(package.extras[l].key == "Latitude") lat = package.extras[l].value;
-   	else if(package.extras[l].key == "Longitude") long = package.extras[l].value;
+    if(package.extras[l].key == "Latitude") lat = package.extras[l].value;
+    else if(package.extras[l].key == "Longitude") long = package.extras[l].value;
    
-   	else if(tag == "testbed" && package.extras[l].key == "Label") label = package.extras[l].value;
+    else if(tag == "testbed" && package.extras[l].key == "Label") label = package.extras[l].value;
    
    }
    if(label == "") label = package.title;
    
    var resources = [];
    for(j=0; j<package.num_resources; j++){
-   	resource = package.resources[j];
+    resource = package.resources[j];
    
-   	//if(resource.name != "sensors") //Aggiunto questo controllo per evitare di avere un'ulteriore datastore da controllare nel caso di box appartenenti al gruppo con tag "testbed"
-   	resources.push({name: resource.name, id: resource.id});
+    //if(resource.name != "sensors") //Aggiunto questo controllo per evitare di avere un'ulteriore datastore da controllare nel caso di box appartenenti al gruppo con tag "testbed"
+    resources.push({name: resource.name, id: resource.id});
    }
    
    packs[i] = {
-   	date: null,
-   	id: package.id,
-   	lat: lat,
-   	long: long,
-   	label: label, //package.title,
-   	name: package.name,
-   	resources: resources,
-   	visibility: true
+    date: null,
+    id: package.id,
+    lat: lat,
+    long: long,
+    label: label, //package.title,
+    name: package.name,
+    resources: resources,
+    visibility: true
    }
    
    var popup = L.popup({maxWidth: 700, minWidth: 200});
    
    if(tag == "testbed" || tag == "energy"){
-   	var marker = L.marker([packs[i].lat, packs[i].long], {title: packs[i].label, id: packs[i].id, icon: icon });
+    var marker = L.marker([packs[i].lat, packs[i].long], {title: packs[i].label, id: packs[i].id, icon: icon });
    
-   	marker.on('click', function(e){
-   		//var array_promise = [];
+    marker.on('click', function(e){
+      //var array_promise = [];
    
-   		//DEBUG (utile per vedere i campi del marker)!!!!
-   		//-------------------------------------------------------
-   		//console.log(JSON.stringify(e, censor(e)));
+      //DEBUG (utile per vedere i campi del marker)!!!!
+      //-------------------------------------------------------
+      //console.log(JSON.stringify(e, censor(e)));
    
-   		//OUTPUT:
-   		//{"originalEvent":{"isTrusted":true},"containerPoint":{"x":689,"y":121},"layerPoint":{"x":628,"y":354},"latlng":{"lat":38.1680344597114,"lng":15.529174804687502},"type":"click","target":{"options":{"title":"ciam-esaving-100266","id":"19ad46fa-622b-4b1a-a6f2-dd7eb88e59a8","icon":{"options":{"iconUrl":"img/energy_marker.png","iconSize":[19,32]},"_initHooksCalled":true},"zIndexOffset":1000000,"opacity":1},"_latlng":{"lat":38.1680344597114,"lng":15.529174804687502},"_initHooksCalled":"[Unknown]","_events":"[Unknown]","_leaflet_id":"[Unknown]","__parent":"[Unknown]","_spiderLeg":"[Unknown]","_eventParents":"[Unknown]","_mapToAdd":"[Unknown]","_map":"[Unknown]","_zoomAnimated":"[Unknown]","_icon":"[Unknown]","_shadow":"[Unknown]","dragging":"[Unknown]","_zIndex":"[Unknown]","_preSpiderfyLatlng":"[Unknown]","_firingCount":"[Unknown]"}}
-   		//-------------------------------------------------------
-   
-   
-   		var pack_id = e.target.options.id;
-   		for(i=0; i< packs.length; i++){
-   			//console.log(packs[i].id);
-   			if(packs[i].id == pack_id){
-   				//console.log("NAME == TITLE "+packs[i].name+ " "+packs[i].id);
-   
-   				var array_promise = [];
-   				for(j=0; j< packs[i].resources.length; j++){
-   					array_promise.push(new Promise( function (resolve){
-   						JsonpCallDatastoreSearchLast(datastore_search_url, packs[i].id, packs[i].resources[j].id, packs[i].resources[j].name, "Date desc", resolve);
-   					}));
-   				}
-   				Promise.all(array_promise).then(values => {
-   					//console.log(values);
-   					var sensors_list = '';
-   
-   					for(p=0; p<values.length; p++){
-   						result = values[p].result;
-   
-   						//Scegliamo sempre il timestamp più "recente"
-   						if(packs[i].date != null)
-   							packs[i].date = compare_dates(packs[i].date, result.records[0].Date);
-   
-   						if(packs[i].lat == null && packs[i].long == null){
-   
-   							packs[n].lat = result.records[0].Latitude;
-   							packs[n].long = result.records[0].Longitude;
-   							//packs[n].date = result.records[0].Date;
-   						}
+      //OUTPUT:
+      //{"originalEvent":{"isTrusted":true},"containerPoint":{"x":689,"y":121},"layerPoint":{"x":628,"y":354},"latlng":{"lat":38.1680344597114,"lng":15.529174804687502},"type":"click","target":{"options":{"title":"ciam-esaving-100266","id":"19ad46fa-622b-4b1a-a6f2-dd7eb88e59a8","icon":{"options":{"iconUrl":"img/energy_marker.png","iconSize":[19,32]},"_initHooksCalled":true},"zIndexOffset":1000000,"opacity":1},"_latlng":{"lat":38.1680344597114,"lng":15.529174804687502},"_initHooksCalled":"[Unknown]","_events":"[Unknown]","_leaflet_id":"[Unknown]","__parent":"[Unknown]","_spiderLeg":"[Unknown]","_eventParents":"[Unknown]","_mapToAdd":"[Unknown]","_map":"[Unknown]","_zoomAnimated":"[Unknown]","_icon":"[Unknown]","_shadow":"[Unknown]","dragging":"[Unknown]","_zIndex":"[Unknown]","_preSpiderfyLatlng":"[Unknown]","_firingCount":"[Unknown]"}}
+      //-------------------------------------------------------
    
    
-   						if(tag == "energy"){
-   							var sensor_url = 'pack_name=' + packs[i].name + '&id=' + result.records.resource_id + '&limit=<?=$limit?>';
+      var pack_id = e.target.options.id;
+      for(i=0; i< packs.length; i++){
+        //console.log(packs[i].id);
+        if(packs[i].id == pack_id){
+          //console.log("NAME == TITLE "+packs[i].name+ " "+packs[i].id);
    
-   							var unit_label='';
-   							if  (result.resource_name.startsWith('Power'))            unit_label = "Watt";
-   							else if (result.resource_name.startsWith('Brightness'))   unit_label = "uWatt/cm2";
-   							else if (result.resource_name.startsWith('Temperature'))  unit_label = "Celsius";
+          var array_promise = [];
+          for(j=0; j< packs[i].resources.length; j++){
+            array_promise.push(new Promise( function (resolve){
+              JsonpCallDatastoreSearchLast(datastore_search_url, packs[i].id, packs[i].resources[j].id, packs[i].resources[j].name, "Date desc", resolve);
+            }));
+          }
+          Promise.all(array_promise).then(values => {
+            //console.log(values);
+            var sensors_list = '';
    
-   							sensors_list += '<a class="list-group-item call_modal ' +
-   								' bold" style="color:black" sensor-name="' + result.resource_name +
-   								'" id="' + result.resource_id + '" pack_name="' + packs[i].name +
-   								'" url="' + sensor_url + '" sensor_type="energy" sensor_unit="'+ unit_label +'"  href="#sensor_modal">' + //sensor_unit="'+ pack.unit +'"
-   								result.resource_name + ' <span class="label text-maroon" style="background-color: DarkKhaki"></span></a>\n';
-   						}
+            for(p=0; p<values.length; p++){
+              result = values[p].result;
    
-   						else if(tag == "testbed"){
-   							if(result.resource_name == "sensors"){
-   								board = '&nbsp;<a class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#info_modal" '+
-   									'href="details.php?pack_name=' + packs[i].name + '&pack_id=' + packs[i].id + '&res_id=' + result.resource_id + '">' +
-   									'<i style="color: white" class="fa fa-info-circle"></i></a>' + "<br><br>\n";
-   							}
-   							else{
-   								var sensor_url = (result.resource_name == "gas") ? "" : 'pack_name=' + packs[i].name + '&id=' + result.resource_id + '&limit=<?=$limit?>&sensor=' + result.resource_name;
-   								var padding = (result.resource_name == "gas") ? " Coming Soon" : "";
+              //Scegliamo sempre il timestamp più "recente"
+              if(packs[i].date != null)
+                packs[i].date = compare_dates(packs[i].date, result.records[0].Date);
    
-   								sensors_list += '<a class="list-group-item call_modal ' + icons[result.resource_name].color +
-   									' bold" style="color:white" sensor-name="' + result.resource_name +
-   									'" id="' + result.resource_id + '" pack_name="' + packs[i].name +
-   									'" url="' + sensor_url + '" href="#sensor_modal">' +
-   									'<i class="' + icons[result.resource_name].icon + '"></i> '
-   									+ result.resource_name + ' <span class="label text-maroon" style="background-color: white">'
-   									+ padding + "</span></a>\n";
-   							}
-   						}
-   					}
+              if(packs[i].lat == null && packs[i].long == null){
    
-   					if(tag == "energy"){
-   						marker_popup_content = '<div class="punto"  id="' + packs[i].id + '" ' +
-   							'pack="' + packs[i].id + '" ><b>' + packs[i].label + '</b>'+
-   							'<br>\n' +
-   							'<span class="sample_date text-light-blue">&nbsp;</span>' +
-   							'<div class="list-group text-left" >' + sensors_list + '</div></div>';
-   					}
+                packs[n].lat = result.records[0].Latitude;
+                packs[n].long = result.records[0].Longitude;
+                //packs[n].date = result.records[0].Date;
+              }
    
-   					else if(tag == "testbed"){
-   						marker_popup_content = '<div class="punto" id="' + packs[i].id + '" pack="' + packs[i].id + '" ><b>' + packs[i].label + '</b>' + 
-   							board + '<br>\n<span class="sample_date text-light-blue">&nbsp;</span>' +
-   							'<div class="list-group text-left">' + sensors_list + '</div></div>';
-   					}
    
-   					var x = popup.setLatLng(e.latlng).setContent(marker_popup_content).openOn(map);
-   				});
-   				break;
-   			}
-   		}
-   	});
+              if(tag == "energy"){
+                var sensor_url = 'pack_name=' + packs[i].name + '&id=' + result.records.resource_id + '&limit=<?=$limit?>';
    
-   	array_markers.push(marker);
-   	layer.addLayer(marker);
-   	//map.addLayer(layer);
+                var unit_label='';
+                if  (result.resource_name.startsWith('Power'))            unit_label = "Watt";
+                else if (result.resource_name.startsWith('Brightness'))   unit_label = "uWatt/cm2";
+                else if (result.resource_name.startsWith('Temperature'))  unit_label = "Celsius";
+   
+                sensors_list += '<a class="list-group-item call_modal ' +
+                  ' bold" style="color:black" sensor-name="' + result.resource_name +
+                  '" id="' + result.resource_id + '" pack_name="' + packs[i].name +
+                  '" url="' + sensor_url + '" sensor_type="energy" sensor_unit="'+ unit_label +'"  href="#sensor_modal">' + //sensor_unit="'+ pack.unit +'"
+                  result.resource_name + ' <span class="label text-maroon" style="background-color: DarkKhaki"></span></a>\n';
+              }
+   
+              else if(tag == "testbed"){
+                if(result.resource_name == "sensors"){
+                  board = '&nbsp;<a class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#info_modal" '+
+                    'href="details.php?pack_name=' + packs[i].name + '&pack_id=' + packs[i].id + '&res_id=' + result.resource_id + '">' +
+                    '<i style="color: white" class="fa fa-info-circle"></i></a>' + "<br><br>\n";
+                }
+                else{
+                  var sensor_url = (result.resource_name == "gas") ? "" : 'pack_name=' + packs[i].name + '&id=' + result.resource_id + '&limit=<?=$limit?>&sensor=' + result.resource_name;
+                  var padding = (result.resource_name == "gas") ? " Coming Soon" : "";
+   
+                  sensors_list += '<a class="list-group-item call_modal ' + icons[result.resource_name].color +
+                    ' bold" style="color:white" sensor-name="' + result.resource_name +
+                    '" id="' + result.resource_id + '" pack_name="' + packs[i].name +
+                    '" url="' + sensor_url + '" href="#sensor_modal">' +
+                    '<i class="' + icons[result.resource_name].icon + '"></i> '
+                    + result.resource_name + ' <span class="label text-maroon" style="background-color: white">'
+                    + padding + "</span></a>\n";
+                }
+              }
+            }
+   
+            if(tag == "energy"){
+              marker_popup_content = '<div class="punto"  id="' + packs[i].id + '" ' +
+                'pack="' + packs[i].id + '" ><b>' + packs[i].label + '</b>'+
+                '<br>\n' +
+                '<span class="sample_date text-light-blue">&nbsp;</span>' +
+                '<div class="list-group text-left" >' + sensors_list + '</div></div>';
+            }
+   
+            else if(tag == "testbed"){
+              marker_popup_content = '<div class="punto" id="' + packs[i].id + '" pack="' + packs[i].id + '" ><b>' + packs[i].label + '</b>' + 
+                board + '<br>\n<span class="sample_date text-light-blue">&nbsp;</span>' +
+                '<div class="list-group text-left">' + sensors_list + '</div></div>';
+            }
+   
+            var x = popup.setLatLng(e.latlng).setContent(marker_popup_content).openOn(map);
+          });
+          break;
+        }
+      }
+    });
+   
+    array_markers.push(marker);
+    layer.addLayer(marker);
+    //map.addLayer(layer);
    }
    else if (tag == "seismic" || tag == "landslide"){
    
-   	var unit_label = "";
-   	var sensor_name = "";
-   	var label = "";
-   	var sensor_type = tag;
+    var unit_label = "";
+    var sensor_name = "";
+    var label = "";
+    var sensor_type = tag;
    
-   	if (tag == "seismic"){
-   		label = "Accelerometer";
-   		unit_label = "m/s^2";
-   		sensor_name = "seismograph";
-   	}
-   	else if (tag == "landslide"){
-   		label = "Landslide";
-   		unit_label = "cos dir";
-   		sensor_name = "inclinometer";
-   	}
+    if (tag == "seismic"){
+      label = "Accelerometer";
+      unit_label = "m/s^2";
+      sensor_name = "seismograph";
+    }
+    else if (tag == "landslide"){
+      label = "Landslide";
+      unit_label = "cos dir";
+      sensor_name = "inclinometer";
+    }
    
-   	//console.log(packs);
-   	for(l=0; l< packs.length; l++) {
-   	
-   		var array_promise = [];
-   		for (m = 0; m < packs[l].resources.length; m++) {
-   			//console.log(datastore_search_url+" "+packs[l].id+" "+packs[l].resources[m].id+" "+packs[l].resources[m].name);
-   			if(removed_datastores.indexOf(packs[l].resources[m].name) != -1)
-   				continue;
-   			else{
-   				array_promise.push(new Promise(function (resolve) {
-   					JsonpCallDatastoreSearchLast(datastore_search_url, packs[l].id, packs[l].resources[m].id, packs[l].resources[m].name, "timestamp desc", resolve);
-   				}));
-   			}
-   		}
-   		Promise.all(array_promise).then(values => {
+    //console.log(packs);
+    for(l=0; l< packs.length; l++) {
+    
+      var array_promise = [];
+      for (m = 0; m < packs[l].resources.length; m++) {
+        //console.log(datastore_search_url+" "+packs[l].id+" "+packs[l].resources[m].id+" "+packs[l].resources[m].name);
+        if(removed_datastores.indexOf(packs[l].resources[m].name) != -1)
+          continue;
+        else{
+          array_promise.push(new Promise(function (resolve) {
+            JsonpCallDatastoreSearchLast(datastore_search_url, packs[l].id, packs[l].resources[m].id, packs[l].resources[m].name, "timestamp desc", resolve);
+          }));
+        }
+      }
+      Promise.all(array_promise).then(values => {
    
-   			for(n=0; n<values.length;n++){
+        for(n=0; n<values.length;n++){
    
-   				if(values[n].result.records.length != 0){
-   					//console.log(values[n]);
-   					result = values[n].result;
-   					record = result.records[0];
-   					
-   					var marker = L.marker([record.lat, record.lng], {title: result.resource_name, id: result.resource_id, icon: icon });
-   					marker.on('click', function(e){
-   						for(o=0; o<packs.length; o++){
+          if(values[n].result.records.length != 0){
+            //console.log(values[n]);
+            result = values[n].result;
+            record = result.records[0];
+            
+            var marker = L.marker([record.lat, record.lng], {title: result.resource_name, id: result.resource_id, icon: icon });
+            marker.on('click', function(e){
+              for(o=0; o<packs.length; o++){
    
-   							flag = false;
-   							for(p=0; p<packs[o].resources.length; p++){
-   								if(packs[o].resources[p].id == e.target.options.id){
-   									//console.log("HERE: "+e.target.options.id);
-   									var dataset_name = packs[o].name;
-   									name = packs[o].resources[p].name;
-   									id = packs[o].resources[p].id;
+                flag = false;
+                for(p=0; p<packs[o].resources.length; p++){
+                  if(packs[o].resources[p].id == e.target.options.id){
+                    //console.log("HERE: "+e.target.options.id);
+                    var dataset_name = packs[o].name;
+                    name = packs[o].resources[p].name;
+                    id = packs[o].resources[p].id;
    
-   									var sensor_url = 'pack_name=' + name + '&id=' + id + '&limit=<?=$limit?>';
-   									//var unit_label = "m/s^2";
+                    var sensor_url = 'pack_name=' + name + '&id=' + id + '&limit=<?=$limit?>';
+                    //var unit_label = "m/s^2";
    
-   									var sensors_list = '';
-   									/*
-   									var axis = ["X", "Y", "Z"];
+                    var sensors_list = '';
+                    /*
+                    var axis = ["X", "Y", "Z"];
    
-   									for(q=0; q< axis.length; q++){
-   										sensors_list += '<a class="list-group-item call_modal ' +
-   											' bold" style="color:black" sensor-name="'+axis[q]+'a' +
-   											'" id="' + id + '" pack_name="' + name +
-   											'" url="' + sensor_url + '" sensor_type="seismic" sensor_unit="'+ unit_label +'"  href="#sensor_modal">' + //sensor_unit="'+ pack.unit +'"
-   											axis[q]+' acceleration' + ' <span class="label text-maroon" style="background-color: DarkKhaki"></span></a>\n';
-   									}
-   									*/
+                    for(q=0; q< axis.length; q++){
+                      sensors_list += '<a class="list-group-item call_modal ' +
+                        ' bold" style="color:black" sensor-name="'+axis[q]+'a' +
+                        '" id="' + id + '" pack_name="' + name +
+                        '" url="' + sensor_url + '" sensor_type="seismic" sensor_unit="'+ unit_label +'"  href="#sensor_modal">' + //sensor_unit="'+ pack.unit +'"
+                        axis[q]+' acceleration' + ' <span class="label text-maroon" style="background-color: DarkKhaki"></span></a>\n';
+                    }
+                    */
    
-   									sensors_list += '<a class="list-group-item call_modal ' +
-   										' bold" style="color:black" sensor-name="'+ sensor_name +
-   										'" id="' + id + '" pack_name="' + dataset_name +
-   										'" url="' + sensor_url + '" sensor_type="'+sensor_type+'" sensor_unit="'+ unit_label +'"  href="#sensor_modal">' +
-   										label + ' <span class="label text-maroon" style="background-color: DarkKhaki"></span></a>\n';
+                    sensors_list += '<a class="list-group-item call_modal ' +
+                      ' bold" style="color:black" sensor-name="'+ sensor_name +
+                      '" id="' + id + '" pack_name="' + dataset_name +
+                      '" url="' + sensor_url + '" sensor_type="'+sensor_type+'" sensor_unit="'+ unit_label +'"  href="#sensor_modal">' +
+                      label + ' <span class="label text-maroon" style="background-color: DarkKhaki"></span></a>\n';
    
    
-   									marker_popup_content = '<div class="punto" id="' + packs[o].id + '" ' +
-   										'pack="' + packs[o].id + '" ><b>' + name + '</b>'+
-   										'<br>\n' +
-   										'<span class="sample_date text-light-blue">&nbsp;</span>' +
-   										'<div class="list-group text-left" >' + sensors_list + '</div></div>';
+                    marker_popup_content = '<div class="punto" id="' + packs[o].id + '" ' +
+                      'pack="' + packs[o].id + '" ><b>' + name + '</b>'+
+                      '<br>\n' +
+                      '<span class="sample_date text-light-blue">&nbsp;</span>' +
+                      '<div class="list-group text-left" >' + sensors_list + '</div></div>';
    
-   									var x = popup.setLatLng(e.latlng).setContent(marker_popup_content).openOn(map);
-   									flag = true;
-   									break;
-   								}
-   								/*
-   								else
-   									console.log("THERE");
-   								*/
-   							}
-   							if(flag == true)
-   								break;
-   						}
-   					});
-   					array_markers.push(marker);
-   					layer.addLayer(marker);
-   				}
-   			}
-   		});
-   	}
+                    var x = popup.setLatLng(e.latlng).setContent(marker_popup_content).openOn(map);
+                    flag = true;
+                    break;
+                  }
+                  /*
+                  else
+                    console.log("THERE");
+                  */
+                }
+                if(flag == true)
+                  break;
+              }
+            });
+            array_markers.push(marker);
+            layer.addLayer(marker);
+          }
+        }
+      });
+    }
    }
    }
    map.addLayer(layer);
@@ -754,8 +754,8 @@
    }
    else{
    if(array_markers_sensors.length != 0){
-   	for(i=0;i<array_markers_sensors.length;i++) sensors.removeLayer(array_markers_sensors[i]);
-   	array_markers_sensors = [];
+    for(i=0;i<array_markers_sensors.length;i++) sensors.removeLayer(array_markers_sensors[i]);
+    array_markers_sensors = [];
    }
    GetSensoriConDati();
    }
@@ -877,9 +877,11 @@
        function DrawGraph(url, resourceId, sensor_name,lim, sensor_unit, sensor_unit_label){
    //            console.log("LOG1");
    //            console.log(sensor_unit,sensor_name);
-   			console.log("Graph drawing triggered.");
-           url = url + '?sql=' + prepareSqlStatement(resourceId , sensor_name, lim);
-           console.log(url);
+        console.log("Graph drawing triggered.");
+           // url = url + '?sql=' + prepareSqlStatement(resourceId , sensor_name, lim);
+           url ="http://localhost:5000/sensors/"+resourceId+"/graph"
+           console.log("url:"+url);
+           console.log("limit:"+limit);
            var chart_width = parseInt($('.modal-lg').width() -50 );
            var records = [];
            var unit_label = (typeof unit[sensor_name] === 'undefined')?unit:unit[sensor_name];
@@ -896,7 +898,7 @@
    
            var dati_sensore = $.getJSON( {url: url, //url ,
                 //data: { "sql": prepareSqlStatement( resourceId , sensor_name ) },
-                dataType: 'jsonp'
+                dataType: 'json'
            }).done(function (data){
                
                $.each(data.result.records, function (k, v) {
@@ -1011,34 +1013,34 @@
    for(var j=0; j<values.length; j++){
    //console.log(values[j]);
    $.each(values[j].result.records, function (k, v) {
-   	v.x = new Date(v.x);
-   	v.y = parseFloat(v.y);
+    v.x = new Date(v.x);
+    v.y = parseFloat(v.y);
    });
    records = values[j].result.records;
    //console.log(records);
    
    //options.series.push({
    seriesOptions.push({
-   	"name": array_axis[j],
-   	"data": records,
-   	"color": colors[j],
-   	"type": "line",
-   	"yAxis": j
+    "name": array_axis[j],
+    "data": records,
+    "color": colors[j],
+    "type": "line",
+    "yAxis": j
    });
    
    axisOptions.push({
-   	title: { text: sensor_unit },
-   	// settings for multiple panes in the chart
-   	height: '' + axisHeightPercent + '%',
-   	top: '' + (j * (axisHeightPercent + axisSpacingPercent)) + '%',
-   	offset: false,
-   	lineWidth: 1
+    title: { text: sensor_unit },
+    // settings for multiple panes in the chart
+    height: '' + axisHeightPercent + '%',
+    top: '' + (j * (axisHeightPercent + axisSpacingPercent)) + '%',
+    offset: false,
+    lineWidth: 1
    });
    
    if(j==values.length-1){
-   	//console.log(options.series);
-   	options.plotOptions.series.turboThreshold = records.length;
-   	Chart = new Highcharts.StockChart(options);
+    //console.log(options.series);
+    options.plotOptions.series.turboThreshold = records.length;
+    Chart = new Highcharts.StockChart(options);
    }
    }
    });
@@ -1055,40 +1057,40 @@
    },
    rangeSelector: {
    buttons: [{
-   	type: 'hour',
-   	count: 1,
-   	text: '1h'
+    type: 'hour',
+    count: 1,
+    text: '1h'
    }, {
-   	type: 'hour',
-   	count: 3,
-   	text: '3h'
+    type: 'hour',
+    count: 3,
+    text: '3h'
    }, {
-   	type: 'day',
-   	count: 1,
-   	text: '1d'
+    type: 'day',
+    count: 1,
+    text: '1d'
    }, {
-   	type: 'day',
-   	count: 3,
-   	text: '3d'
+    type: 'day',
+    count: 3,
+    text: '3d'
    },{
-   	type: 'all',
-   	text: 'All'
+    type: 'all',
+    text: 'All'
    }],
    inputEnabled: true, // it supports only days
    selected: 4 // all
    },
    xAxis: {
    dateTimeLabelFormats: {
-   	hour: "%b %e, %H:%M",
-   	month: '%e. %b',
-   	year: '%b'
+    hour: "%b %e, %H:%M",
+    month: '%e. %b',
+    year: '%b'
    },
    type: 'datetime'
    },
    /*
    yAxis: {
    title: {
-   	text: 'measure unit:' + unit_label
+    text: 'measure unit:' + unit_label
    }
    },
    */
@@ -1102,8 +1104,8 @@
    series: seriesOptions,
    plotOptions:{
    series:{
-   	showInNavigator: true
-   	//turboThreshold: threshold //set it to a larger threshold, it is by default to 1000
+    showInNavigator: true
+    //turboThreshold: threshold //set it to a larger threshold, it is by default to 1000
    }
    }
    };
@@ -1226,7 +1228,7 @@
            $("#measure_unit").html(unit_label);
    
            $('#download_csv').attr('href', 'http://smartme-data.unime.it/datastore/dump/' + id_sensor);
-      	    $('#open_data_link').attr('href', 'http://smartme-data.unime.it/dataset/' + pack_name + '/resource/' + id_sensor);
+            $('#open_data_link').attr('href', 'http://smartme-data.unime.it/dataset/' + pack_name + '/resource/' + id_sensor);
    
            // url = 'jsonp_call.php?id=' + id_sensor+ '&limit=<?= $limit ?>&sensor=' + sensor_name;
            url = 'http://smartme-data.unime.it/api/action/datastore_search_sql';
@@ -1235,24 +1237,24 @@
     if(sensor_type){
                if(sensor_type == "energy"){
                 sensor_name = "value";
-       	        if  ($(this).attr('sensor-name').startsWith('Power')) {
-               	    unit = "W";
+                if  ($(this).attr('sensor-name').startsWith('Power')) {
+                    unit = "W";
                     unit_label = "Watt";
                    
-       	        } else if ($(this).attr('sensor-name').startsWith('Brightness')) {
+                } else if ($(this).attr('sensor-name').startsWith('Brightness')) {
                     unit = "uW/cm2";
-       	            unit_label = "uWatt/cm2";
+                    unit_label = "uWatt/cm2";
                    
                 } else if ($(this).attr('sensor-name').startsWith('Temperature')) {
-       	            unit = "C";
-               	    unit_label = "Celsius";
+                    unit = "C";
+                    unit_label = "Celsius";
                 }
    DrawGraph(url,id_sensor,sensor_name, 1, unit);
    }
    else if (sensor_type == "seismic"){
    var array_axis = ["Xa", "Ya", "Za"];
                 unit = "m/s^2";
-       	        unit_label = "m/s^2";
+                unit_label = "m/s^2";
    DrawMultilineGraph(url, id_sensor, array_axis, 1, unit);
                }
    else if (sensor_type == "landslide"){
