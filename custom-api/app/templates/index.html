@@ -1,0 +1,303 @@
+<html>
+   <head>
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/semantic.css')}}">
+         <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+   <script src="{{ url_for('static', filename='js/semantic.min.js')}}"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script type="text/javascript">
+
+</script>
+<style type="text/css">
+	/*
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+*/
+/**
+ * GitHub Gist Theme
+ * Author : Louis Barranqueiro - https://github.com/LouisBarranqueiro
+ */
+
+.hljs {
+  display: block;
+  background: white;
+  padding: 0.5em;
+  color: #333333;
+  overflow-x: auto;
+}
+
+.hljs-comment,
+.hljs-meta {
+  color: #969896;
+}
+
+.hljs-string,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-strong,
+.hljs-emphasis,
+.hljs-quote {
+  color: #df5000;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-type {
+  color: #a71d5d;
+}
+
+.hljs-literal,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-attribute {
+  color: #0086b3;
+}
+
+.hljs-section,
+.hljs-name {
+  color: #63a35c;
+}
+
+.hljs-tag {
+  color: #333333;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #795da3;
+}
+
+.hljs-addition {
+  color: #55a532;
+  background-color: #eaffea;
+}
+
+.hljs-deletion {
+  color: #bd2c00;
+  background-color: #ffecec;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+</style>
+   </head>
+   <body>
+      <br>
+      <div class="ui center aligned container">
+         <h2 class="ui header">Data Point Verification Wizard</h2>
+         <div class="ui three top attached steps">
+            <div class="active step" id="top-step-1">
+               <i class="align left icon"></i>
+               <div class="content">
+                  <div class="title">Description</div>
+                  <div class="description">See Public Key, Singature, Message</div>
+               </div>
+            </div>
+            <div class="disabled step" id="top-step-2">
+               <i class="hashtag icon"></i>
+               <div class="content">
+                  <div class="title">Hashing</div>
+                  <div class="description">Generate or enter your own hash</div>
+               </div>
+            </div>
+            <div class="disabled step" id="top-step-3">
+               <i class="university icon"></i>
+               <div class="content">
+                  <div class="title">Verification</div>
+                  <div class="description">Verify the signature</div>
+               </div>
+            </div>
+         </div>
+         <div class="ui attached left aligned segment">
+            <p>
+            <form class="ui form">
+               <div class="field step-1">
+                  <label>Data Point - Readings</label>
+                  <!-- <input type="text" name="reading" id="reading" placeholder="First Name" disabled> -->
+                  <div class="ui raised segment">
+                  	<pre><code class="code json">{
+	"Brightness": "352.5382880655686", 
+	"Altitude": "19", 
+	"Longitude": "15.59541", 
+	"Latitude": "38.25947", 
+	"Date": "2018-07-08T11:20:38.103000"
+}</code></pre>
+                  </div>
+               </div>
+               <div class="field">
+               	<label>Full Response</label>
+               	               <div class="ui styled fluid accordion">
+                  <div class="title">
+                     <i class="dropdown icon"></i>
+                     See the full response (The actual message signed and stored)
+                  </div>
+                  <div class="content">
+                  	<pre><code class="code json">
+{"asset":{"data":{"Altitude":"19","Date":"2018-07-15T01:07:50.268Z","Latitude":"38.25947","Longitude":"15.59541","Pressure":null,"entity":"reading","resource_id":"ad22222f-932b-411b-8e36-2df43b6f402b","type":"Pressure"}},"id":null,"inputs":[{"fulfillment":null,"fulfills":null,"owners_before":["FjHeLnPJHcyXCN1LeT5mAKNAEHpZU3BeCKbE9KmgTmWt"]}],"metadata":null,"operation":"CREATE","outputs":[{"amount":"1","condition":{"details":{"public_key":"FjHeLnPJHcyXCN1LeT5mAKNAEHpZU3BeCKbE9KmgTmWt","type":"ed25519-sha-256"},"uri":"ni:///sha-256;DDLsliI9Hkc-OmH1oKMjm864360XpeFysbJo7SI2NPQ?fpt=ed25519-sha-256&cost=131072"},"public_keys":["FjHeLnPJHcyXCN1LeT5mAKNAEHpZU3BeCKbE9KmgTmWt"]}],"version":"2.0"}
+    </code></pre>
+                  </div>
+               </div>
+               </div>
+               <div class="field">
+                  <label>Public Key</label>
+                  <input type="text" name="pubblic_key" placeholder="Public Key" id="public_key" disabled>
+               </div>
+               <div class="field">
+                  <label>Singature</label>
+                  <input type="text" name="singature" placeholder="Signature" id="signature" disabled>
+               </div>
+               <div class="field step-2">
+                  <label>Text</label>
+                  <textarea id="input_hash"></textarea>
+               </div>
+               <div class="ui animated blue button step-1" id="step-1-button" tabindex="0">
+  <div class="visible content">Proceed</div>
+  <div class="hidden content">
+    <i class="right arrow icon"></i>
+  </div>
+</div>
+<div class="ui animated black button step-2" id="step-2-button-b" tabindex="0">
+  <div class="visible content">Go Back</div>
+  <div class="hidden content">
+    <i class="left arrow icon"></i>
+  </div>
+</div>
+<div class="ui animated yellow button step-2" id="step-2-button" tabindex="0">
+  <div class="visible content">Generate Hash</div>
+  <div class="hidden content">
+    <i class="right arrow icon"></i>
+  </div>
+</div>
+<div class="ui animated black button step-3" id="step-3-button-b" tabindex="0">
+  <div class="visible content">Go Back</div>
+  <div class="hidden content">
+    <i class="left arrow icon"></i>
+  </div>
+</div>
+<div class="ui animated green button step-3" id="step-3-button" tabindex="0">
+  <div class="visible content">Verify</div>
+  <div class="hidden content">
+    <i class="right arrow icon"></i>
+  </div>
+</div>
+<div class="ui animated black button step-4" id="step-4-button-b" tabindex="0">
+  <div class="visible content">Go Back</div>
+  <div class="hidden content">
+    <i class="left arrow icon"></i>
+  </div>
+</div>
+<div class="ui animated red button"  id="step-4-button" tabindex="0">
+  <div class="visible content">Exit</div>
+  <div class="hidden content">
+    <i class="right arrow icon"></i>
+  </div>
+</div>
+            </form>
+            </p>
+         </div>
+      </div>
+
+   </body>
+<script type="text/javascript">
+	$('.ui.accordion')
+  .accordion()
+;
+	hljs.initHighlightingOnLoad();
+	var step = 1;
+			topStep1 = $("#top-step-1");
+		topStep2 = $("#top-step-2");
+		topStep3 = $("#top-step-3");
+	function syncSteps(){
+
+		if(step==1){
+			$(".step-2").hide(400);
+			$(".step-1").show(400);
+			$(".step-3").hide();
+			$(".step-4").hide();
+		}
+		else if(step==2) {
+			$(".step-1").hide(400);
+			$(".step-2").show(400);
+			$(".step-3").hide(400);
+			topStep2.toggleClass("active");
+			if(topStep2.hasClass("disabled")) {
+				topStep2.removeClass("disabled");
+				// if(!topStep1.hasClass("disabled")) {
+				// topStep1.addClass("disabled");
+				// }
+				if(!topStep3.hasClass("disabled")) {
+				topStep3.addClass("disabled");
+				}
+			}
+		}
+		else if(step==3) {
+			$(".step-2").hide(400);
+			$(".step-3").show(400);
+			$(".step-4").hide(400);
+			topStep3.toggleClass("active");
+			if(topStep3.hasClass("disabled")) {
+				topStep3.removeClass("disabled");
+			}
+		}
+
+		else if(step==4) {
+			$(".step-3").hide(400);
+			$(".step-4").show(400);
+			
+		}
+	}
+
+	syncSteps();
+	$('#step-1-button').on('click', function(){
+		step=2;
+		topStep1.removeClass('active');
+		topStep1.addClass('completed');
+		syncSteps();
+	});
+	$('#step-2-button-b').on('click', function(){
+		step=1;
+		topStep2.removeClass('active');
+		topStep2.addClass('disabled');
+		topStep1.removeClass('completed');
+		syncSteps();
+	});
+	$('#step-2-button').on('click', function(){
+		step=3;
+		topStep2.removeClass('active');
+		topStep2.addClass('completed');
+		syncSteps();
+	});
+	$('#step-3-button-b').on('click', function(){
+		step=2;
+		topStep3.removeClass('active');
+		topStep3.addClass('disabled');
+		topStep2.removeClass('completed');
+		syncSteps();
+	});
+	$('#step-3-button').on('click', function(){
+		step=4;
+		topStep3.removeClass('active');
+		topStep3.addClass('completed');
+		// topStep2.removeClass('completed');
+		syncSteps();
+	});
+	$('#step-4-button-b').on('click', function(){
+		step=3;
+		topStep3.addClass('active');
+		topStep3.removeClass('completed');
+		syncSteps();
+	});
+	$('#step-4-button').on('click', function(){
+		location.reload();
+	});
+
+</script>
+</html>
