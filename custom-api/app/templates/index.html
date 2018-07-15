@@ -254,9 +254,9 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
    </body>
 <script type="text/javascript">
 	$('.ui.accordion')
-  .accordion()
-;
-  $.getJSON("http://localhost:5000/verify/9b42f8dcb8bb711a7d74b114d28128169dc6a8c61bc656997442f1d69f402381", function(data){
+  .accordion();
+  var id = getParameterByName('id');
+  $.getJSON("http://localhost:5000/verify/"+id, function(data){
             console.log(data['reading']);
             // JSON.stringify(jsObj, null, "\t");
             $('#reading').append(JSON.stringify(JSON.parse(data['reading']), null, "\t"));
@@ -286,6 +286,15 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
   function readingFormatter(reading) {
     console.log(reading['altitude']);
   }
+  function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 	function syncSteps(){
 
 		if(step==1){
