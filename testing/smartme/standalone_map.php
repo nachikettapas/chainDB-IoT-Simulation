@@ -956,7 +956,8 @@
                            month: '%e. %b',
                            year: '%b'
                        },
-                       type: 'datetime'
+                       type: 'datetime',
+                       title: 'click on data points to verify them!'
                    },
                    yAxis: {
                        title: {
@@ -966,16 +967,26 @@
                    tooltip: {
                        valueDecimals: 1,
                        valueSuffix: " " + unit_label
+                       // pointFormat:'<span class="data-point" id="{point.unique}" style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y}</b><br><a href="http://localhost:5000/verify?id=\'{point.unique}\'> Verify Data Point</a><br/>',
                    },
+                   plotOptions: {
+                          series: {
+                              cursor: 'pointer',
+                              point: {
+                                  events: {
+                                      click: function () {
+                                          location.href="http://localhost:5000/verify?id="+this.unique;
+                                      }
+                                  }
+                              }
+                          }
+                      },
+
+                   // <a href="http://localhost:5000/verify?id=\'{point.unique}\'> Verify Data Point</a>
                    series: [{
                        name: sensor_name,
                        data: records
-                   }],
-                   plotOptions:{
-                       series:{
-                           //turboThreshold:5000//set it to a larger threshold, it is by default to 1000
-                       }
-                   }
+                   }]
                  };            
        }
    
