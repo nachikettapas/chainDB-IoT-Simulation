@@ -924,7 +924,7 @@
                        width: chart_width
                    },
                    title: {
-                       text: sensor_name + " samples."
+                       text: sensor_name + " samples.<br>click on data points to verify them!"
                    },
                    rangeSelector: {
                        buttons: [{
@@ -957,7 +957,6 @@
                            year: '%b'
                        },
                        type: 'datetime',
-                       title: 'click on data points to verify them!'
                    },
                    yAxis: {
                        title: {
