@@ -53,5 +53,44 @@ The flask app should be accessible at \<ip-address\>:8000
 
 
 
+## Service File 
+
+```
+[Unit]
+Description=Custom API uWSGI service
+
+[Service]
+User=abhinav
+Group=www-data
+Environment=PATH=/home/abhinav/chainDB-iot-simulation/custom-api/venv/bin
+WorkingDirectory=/home/abhinav/chainDB-iot-simulation/custom-api
+ExecStart=/home/abhinav/chainDB-iot-simulation/custom-api/venv/bin/uwsgi --ini custom-api.ini
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
 
 
+
+```
+server {
+    listen 80;
+    server_name 212.189.207.119;
+    root /var/www/html;
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/abhinav/chainDB-iot-simulation/custom-api/custom-api.sock;
+    }
+    location ~ \.php$ {
+#       root /var/www/html;
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        }
+
+}
+
+```
+https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04
+https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-14-04
+https://www.digitalocean.com/community/questions/convert-run-at-startup-script-from-upstart-to-systemd-for-ubuntu-16
