@@ -15,3 +15,17 @@ sudo dpkg-reconfigure locales
 https://docs.bigchaindb.com/projects/server/en/latest/simple-network-setup.html#install-the-required-software
 
 
+## NGINX 
+After installing nginx from apt-get:
+
+`sudo /etc/init.d/nginx start`
+
+Open Port 80 using 
+
+`sudo ufw allow 80`
+
+Visit the IP address and Nginx Welcome message should appear
+
+
+
+
