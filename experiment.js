@@ -1481,8 +1481,11 @@ for(;o>0;){n.push(o%r),o=o/r|0}}
 for(var d="",f=0;0===t[f]&&f<t.length-1;++f){d+=i}
 for(var s=n.length-1;s>=0;--s){d+=e[n[s]]}
 return d},decodeUnsafe:o,decode:function decode(e){var t=o(e);if(t)return t;throw new Error("Non-base"+r+" character")}}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default=function(e){var t=e?i.default.sign.keyPair.fromSeed(e):i.default.sign.keyPair();this.publicKey=n.default.encode(t.publicKey),this.privateKey=n.default.encode(t.secretKey.slice(0,32))};var n=u(r(2)),i=u(r(78));function u(e){return e&&e.__esModule?e:{default:e}}},function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.ccJsonify=t.ccJsonLoad=t.Transaction=t.Connection=t.Ed25519Keypair=void 0;var n=d(r(84)),i=d(r(76)),u=d(r(29)),a=d(r(19)),o=d(r(9));function d(e){return e&&e.__esModule?e:{default:e}}
-t.Ed25519Keypair=n.default,t.Connection=i.default,t.Transaction=u.default,t.ccJsonLoad=a.default,t.ccJsonify=o.default},function(e,t,r){e.exports=r(85)}]);let conn=new BigchainDB.Connection('https://test.bigchaindb.com',{app_id:'c5f253ba',app_key:'a9b4f9021b694736fdb463c9ba0d1d13'});let alice={publicKey:'5JyeTPV1YVF7wkh9hYL4WJAxcjTxbXD7HpzR7Ei7XW2j',privateKey:'9BYGTebLK4Mgz2FspyaeT713iUtjWQp15Usff7TqdxbZ'}
-let assetdata={'reading':{'timestamp':new Date(),'sensor':'asda-dsvsvsd-213sdf-sdfsdf','type':'temperature','reading':'30','Altitude':'<reading>','Lattitude':'<reading>','Longitude':'<reading>'}}
-let metadata={'planet':'earth'}
-let txCreateAliceSimple=BigchainDB.Transaction.makeCreateTransaction(assetdata,metadata,[BigchainDB.Transaction.makeOutput(BigchainDB.Transaction.makeEd25519Condition(alice.publicKey))],alice.publicKey);let txCreateAliceSimpleSigned=BigchainDB.Transaction.signTransaction(txCreateAliceSimple,alice.privateKey)
+t.Ed25519Keypair=n.default,t.Connection=i.default,t.Transaction=u.default,t.ccJsonLoad=a.default,t.ccJsonify=o.default},function(e,t,r){e.exports=r(85)}]);
+
+
+var conn=new BigchainDB.Connection('https://test.bigchaindb.com',{app_id:'c5f253ba',app_key:'a9b4f9021b694736fdb463c9ba0d1d13'});let alice={publicKey:'5JyeTPV1YVF7wkh9hYL4WJAxcjTxbXD7HpzR7Ei7XW2j',privateKey:'9BYGTebLK4Mgz2FspyaeT713iUtjWQp15Usff7TqdxbZ'}
+var assetdata={'reading':{'timestamp':new Date(),'sensor':'asda-dsvsvsd-213sdf-sdfsdf','type':'temperature','reading':'30','Altitude':'<reading>','Lattitude':'<reading>','Longitude':'<reading>'}}
+var metadata={'planet':'earth'}
+var txCreateAliceSimple=BigchainDB.Transaction.makeCreateTransaction(assetdata,metadata,[BigchainDB.Transaction.makeOutput(BigchainDB.Transaction.makeEd25519Condition(alice.publicKey))],alice.publicKey);let txCreateAliceSimpleSigned=BigchainDB.Transaction.signTransaction(txCreateAliceSimple,alice.privateKey)
 console.log(txCreateAliceSimpleSigned)
