@@ -26,6 +26,32 @@ Open Port 80 using
 
 Visit the IP address and Nginx Welcome message should appear
 
+## uWSGI
+
+`pip install uwsgi`
+
+Create a file called `wsgi.py`
+In it simply import the application and run it, the appication **must** be imported as `application` irresepective of it's actual name.
+
+Sample File:
+
+```python
+from app import app as application
+
+if __name__=="__main__":
+	application.run()
+```
+
+### Testing uWSGI
+
+```
+uwsgi --socket 0.0.0.0:8000 --protocol=http -w wsgi
+```
+
+The flask app should be accessible at \<ip-address\>:8000
+
+
+
 
 
 
