@@ -354,7 +354,7 @@ def sensor_by_id(sensor_id):
         limit = int(request.args.get('limit'))
         print("limit is {}".format(limit))
         readings = []
-        for index, reading in enumerate(collection.find({"data.entity": "reading","data.resource_id":sensor_id})):
+        for index, reading in enumerate(collection.find({"data.entity": "reading","data.resource_id":sensor_id}).limit(1).sort('data.Date', DESCENDING)):
             if index == limit:
                 break
             readings.append(reading['data'])
