@@ -6,6 +6,15 @@ Assuming a fresh installation of Ubuntu 16.04 on a server/virtual machine
 Python 3.6 should be installed and be in use by `python3` in terminal.
 https://www.rosehosting.com/blog/how-to-install-python-3-6-on-ubuntu-16-04/
 
+
+### In case SSL is missing from pip
+
+sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+
+And then re run the installation using 
+`make`
+`make install`
+
 ## Loacle
 export LC_ALL="en_US.UTF-8"
 export LC_CTYPE="en_US.UTF-8"
@@ -91,6 +100,12 @@ server {
 }
 
 ```
+
+
+sudo mkdir -p /data/db/
+sudo chown -R `id -u` /data/db
+
+
 https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04
 https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-14-04
 https://www.digitalocean.com/community/questions/convert-run-at-startup-script-from-upstart-to-systemd-for-ubuntu-16
