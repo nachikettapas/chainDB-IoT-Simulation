@@ -120,3 +120,11 @@ mongod --fork --logpath /var/log/mongod.log
 service mongod status
 service mongod start
 service mongod stop
+
+
+## NODES
+
+### Coordinator Node - Member 1
+Host Name: `212.189.207.119`
+Node ID: `513b536e3ebb2bc60c817c4e640d3ddbe6e0c7cb`
+Public Key: `ntjRee68kn5ijvCMd01LyNm2dMuhpKaLieeaydLg3ns=`
