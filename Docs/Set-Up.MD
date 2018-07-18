@@ -128,3 +128,8 @@ service mongod stop
 Host Name: `212.189.207.119`
 Node ID: `513b536e3ebb2bc60c817c4e640d3ddbe6e0c7cb`
 Public Key: `ntjRee68kn5ijvCMd01LyNm2dMuhpKaLieeaydLg3ns=`
+
+### Member 2
+Host Name: `40.115.47.175`
+Node ID: `99966473345eb668695d29b2e12f6614597e0330`
+Public Key: `2cU5ZnA3bo6Rm01XRqyQxqIddc4GQAMwEbRQ38+lDGI=`
