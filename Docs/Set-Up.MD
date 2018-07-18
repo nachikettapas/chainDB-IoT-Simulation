@@ -144,3 +144,47 @@ Host Name: `139.99.201.115`
 Node ID: `6d237812ba69562846c73a00225afc1f2796702a`
 Public KeyL: `90cslPYMfdWD640GSuIafCQVQOi7wBgzF6PMqBwYHWM=`
 
+513b536e3ebb2bc60c817c4e640d3ddbe6e0c7cb@212.189.207.119:26656,99966473345eb668695d29b2e12f6614597e0330@40.115.47.175:26656,8669eb382282b8759156760e004095bcdb10986a@bigchaindb3.unime.it:26656,6d237812ba69562846c73a00225afc1f2796702a@139.99.201.115:26656
+
+
+{  
+   "services":[  
+      {  
+         "id":"n1",
+         "name":"node",
+         "address":"212.189.207.119",
+         "tags":[  
+            "node1"
+         ],
+         "port":80
+      },
+      {  
+         "id":"n2",
+         "name":"node2",
+         "address":"40.115.47.175",
+         "tags":[  
+            "node1"
+         ],
+         "port":80
+      },
+      {  
+         "id":"n3",
+         "name":"node3",
+         "address":"bigchaindb3.unime.it",
+         "tags":[  
+            "node1"
+         ],
+         "port":80
+      },
+      {  
+         "id":"n4",
+         "name":"node",
+         "address":"139.99.201.115",
+         "tags":[  
+            "node1"
+         ],
+         "port":80
+      }
+
+   ]
+}
