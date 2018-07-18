@@ -109,3 +109,14 @@ sudo chown -R `id -u` /data/db
 https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-in-ubuntu-16-04
 https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-uwsgi-and-nginx-on-ubuntu-14-04
 https://www.digitalocean.com/community/questions/convert-run-at-startup-script-from-upstart-to-systemd-for-ubuntu-16
+
+sudo lsof -i -P -n | grep LISTEN
+
+
+
+
+
+mongod --fork --logpath /var/log/mongod.log
+service mongod status
+service mongod start
+service mongod stop
