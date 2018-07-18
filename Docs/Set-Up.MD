@@ -133,3 +133,9 @@ Public Key: `ntjRee68kn5ijvCMd01LyNm2dMuhpKaLieeaydLg3ns=`
 Host Name: `40.115.47.175`
 Node ID: `99966473345eb668695d29b2e12f6614597e0330`
 Public Key: `2cU5ZnA3bo6Rm01XRqyQxqIddc4GQAMwEbRQ38+lDGI=`
+
+### Member 3
+Host Name: `bigchaindb3.unime.it`
+Node ID: `8669eb382282b8759156760e004095bcdb10986a`
+Public Key: `v3CI6fpQ59tNnmZ4VkFWZPs4sFKnl6L7mnGjZCxr97Y=`
+
