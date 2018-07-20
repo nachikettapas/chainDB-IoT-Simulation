@@ -160,19 +160,19 @@ Public KeyL: `90cslPYMfdWD640GSuIafCQVQOi7wBgzF6PMqBwYHWM=`
       },
       {  
          "id":"n2",
-         "name":"node2",
+         "name":"node",
          "address":"40.115.47.175",
          "tags":[  
-            "node1"
+            "node2"
          ],
          "port":80
       },
       {  
          "id":"n3",
-         "name":"node3",
+         "name":"node",
          "address":"bigchaindb3.unime.it",
          "tags":[  
-            "node1"
+            "node3"
          ],
          "port":80
       },
@@ -181,10 +181,16 @@ Public KeyL: `90cslPYMfdWD640GSuIafCQVQOi7wBgzF6PMqBwYHWM=`
          "name":"node",
          "address":"139.99.201.115",
          "tags":[  
-            "node1"
+            "node4"
          ],
          "port":80
       }
 
    ]
 }
+
+
+ const { Resolver } = require('dns');
+ const resolver = new Resolver();
+resolver.resolve4('node.service.consul', (err,addresses)=> {console.log(addresses);});
+resolver.setServers(['212.189.207.119:8600']);
