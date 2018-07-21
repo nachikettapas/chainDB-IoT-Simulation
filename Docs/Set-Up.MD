@@ -82,6 +82,8 @@ WantedBy=multi-user.target
 
 
 
+## NGINX Config
+
 ```
 server {
     listen 80;
@@ -190,7 +192,7 @@ Public KeyL: `90cslPYMfdWD640GSuIafCQVQOi7wBgzF6PMqBwYHWM=`
 }
 
 
- const { Resolver } = require('dns');
- const resolver = new Resolver();
+const { Resolver } = require('dns');
+const resolver = new Resolver();
 resolver.resolve4('node.service.consul', (err,addresses)=> {console.log(addresses);});
 resolver.setServers(['212.189.207.119:8600']);

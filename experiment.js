@@ -19027,36 +19027,37 @@ global.window.BigchainDB = function(e) {
     e.exports = r(85);
 }]); //# sourceMappingURL=bigchaindb-driver.global.window.min.js.map
 
-// let conn =  new BigchainDB.Connection('https://test.bigchaindb.com', {
-//     app_id: 'c5f253ba',
-//     app_key: 'a9b4f9021b694736fdb463c9ba0d1d13'
-// });
-// let alice = {
-//     publicKey: '5JyeTPV1YVF7wkh9hYL4WJAxcjTxbXD7HpzR7Ei7XW2j',
-//     privateKey: '9BYGTebLK4Mgz2FspyaeT713iUtjWQp15Usff7TqdxbZ' 
-// }
-// let assetdata = {
-//     'reading': {
-//             'timestamp': new Date(),
-//             'sensor'   : 'asda-dsvsvsd-213sdf-sdfsdf',
-//             'type'     : 'temperature',
-//             'reading'  : '30',
-//             'Altitude' : '<reading>',
-//             'Lattitude': '<reading>',
-//             'Longitude': '<reading>'
-//     }
-// }
-// let metadata= {'planet': 'earth'}
-// let txCreateAliceSimple = BigchainDB.Transaction.makeCreateTransaction(
-//     assetdata,
-//     metadata,
-//     // A transaction needs an output
-//     [ BigchainDB.Transaction.makeOutput(
-//             BigchainDB.Transaction.makeEd25519Condition(alice.publicKey))
-//     ],
-//     alice.publicKey
-// );
-// let txCreateAliceSimpleSigned = BigchainDB.Transaction.signTransaction(txCreateAliceSimple, alice.privateKey)
-// // conn.postTransactionCommit(txCreateAliceSimpleSigned)
+let conn =  new BigchainDB.Connection('https://test.bigchaindb.com', {
+    app_id: 'c5f253ba',
+    app_key: 'a9b4f9021b694736fdb463c9ba0d1d13'
+});
+console.log(conn);
+let alice = {
+    publicKey: '5JyeTPV1YVF7wkh9hYL4WJAxcjTxbXD7HpzR7Ei7XW2j',
+    privateKey: '9BYGTebLK4Mgz2FspyaeT713iUtjWQp15Usff7TqdxbZ' 
+}
+let assetdata = {
+    'reading': {
+            'timestamp': new Date(),
+            'sensor'   : 'asda-dsvsvsd-213sdf-sdfsdf',
+            'type'     : 'temperature',
+            'reading'  : '30',
+            'Altitude' : '<reading>',
+            'Lattitude': '<reading>',
+            'Longitude': '<reading>'
+    }
+}
+let metadata= {'planet': 'earth'}
+let txCreateAliceSimple = BigchainDB.Transaction.makeCreateTransaction(
+    assetdata,
+    metadata,
+    // A transaction needs an output
+    [ BigchainDB.Transaction.makeOutput(
+            BigchainDB.Transaction.makeEd25519Condition(alice.publicKey))
+    ],
+    alice.publicKey
+);
+let txCreateAliceSimpleSigned = BigchainDB.Transaction.signTransaction(txCreateAliceSimple, alice.privateKey)
+// conn.postTransactionCommit(txCreateAliceSimpleSigned)
 
-// console.log(txCreateAliceSimpleSigned);
+console.log(txCreateAliceSimpleSigned);
