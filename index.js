@@ -1,10 +1,10 @@
 const BigchainDB = require('bigchaindb-driver');
-
+console.log(BigchainDB.Ed25519Keypair);
 const API_PATH = 'http://localhost:9984/api/v1/';
 
 // Create a new keypair.
 const alice = new BigchainDB.Ed25519Keypair()
-
+console.log(alice);
 // Construct a transaction payload
 
 const assetdata = {
