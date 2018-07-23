@@ -196,3 +196,10 @@ const { Resolver } = require('dns');
 const resolver = new Resolver();
 resolver.resolve4('node.service.consul', (err,addresses)=> {console.log(addresses);});
 resolver.setServers(['212.189.207.119:8600']);
+
+
+## ChainDB IoT Simulation
+
+`git clone https://github.com/CosmicCoder96/chainDB-IoT-Simulation`
+`sudo apt-get install virtualenv`
+`cd chainDB-IoT-Simulation`
