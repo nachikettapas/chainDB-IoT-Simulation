@@ -203,3 +203,5 @@ resolver.setServers(['212.189.207.119:8600']);
 `git clone https://github.com/CosmicCoder96/chainDB-IoT-Simulation`
 `sudo apt-get install virtualenv`
 `cd chainDB-IoT-Simulation`
+`virtualenv venv -p python3`
+`source venv/bin/activate`
