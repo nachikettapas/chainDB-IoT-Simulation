@@ -12,7 +12,7 @@ from sha3 import sha3_256
 
 bdb_root_url = 'http://localhost:9984'
 bdb = BigchainDB(bdb_root_url)
-client = MongoClient('localhost', 32768)
+client = MongoClient('localhost', 32769)
 print(client.database_names())
 db = client['bigchain']
 collection = db.assets
