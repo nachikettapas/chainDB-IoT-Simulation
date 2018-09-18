@@ -12,7 +12,11 @@ from sha3 import sha3_256
 
 bdb_root_url = 'http://localhost:9984'
 bdb = BigchainDB(bdb_root_url)
-client = MongoClient('localhost', 32769)
+#<<<<<<< 422686c60046e7fd0d2167c89a1eac6af612c865
+#client = MongoClient('localhost', 32769)
+#=======
+client = MongoClient('localhost', 27017)
+#>>>>>>> Production
 print(client.database_names())
 db = client['bigchain']
 collection = db.assets
@@ -20,7 +24,7 @@ transactions = db.transactions
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return "Hello, World - Nginx! bdb-{} ".format(bdb)
 
 @app.route('/sensor', methods= ['POST'])
 def sensor():
