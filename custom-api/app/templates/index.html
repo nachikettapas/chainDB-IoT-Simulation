@@ -174,7 +174,7 @@
 <script>
 
 var id = getParameterByName('id');
-$.getJSON("http://localhost:5000/verify/" + id, function(data) {
+$.getJSON("http://212.189.207.119/bdb/verify/" + id, function(data) {
     console.log(data['reading']);
     // JSON.stringify(jsObj, null, "\t");
     $('#reading').append(JSON.stringify(JSON.parse(data['reading']), null, "\t"));
@@ -191,7 +191,7 @@ $('.ui.accordion')
     .accordion();
 console.log($('#input_hash').val())
 $.ajax({
-    url: "http://localhost:5000/hash",
+    url: "http://212.189.207.119/bdb/hash",
     type: 'POST',
     dataType: 'text',
     data: $('#input_hash').val(),
@@ -278,7 +278,7 @@ $('#step-2-button').on('click', function() {
     topStep2.addClass('completed');
     console.log($('#input_hash').val())
     $.ajax({
-        url: "http://localhost:5000/hash",
+        url: "http://212.189.207.119/bdb/hash",
         type: 'POST',
         dataType: 'text',
         data: $('#input_hash').val(),
