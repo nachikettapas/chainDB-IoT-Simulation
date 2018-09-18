@@ -64,6 +64,11 @@ def helloWorld():
 
     return 'hello {}'.format(sent_creation_tx)
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    app.logger.error('Server Error: %s', (error))
+    return render_template('500.htm'), 500
+
 @app.route('/retrieve/<resource_id>/<sensor_type>', methods=['GET'])
 def retrieve(resource_id, sensor_type):
     db = client['bigchain']
