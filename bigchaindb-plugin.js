@@ -42,7 +42,7 @@ exports.main = function (arguments){
 	board = new linino.Board();
 	
 
-	var bigchaindbAddress = "http://172.17.5.188:5000";
+	var bigchaindbAddress = "http://212.189.207.119/bdb";
 
     api = require(LIGHTNINGROD_HOME + '/modules/plugins-manager/plugin-apis');
 	logger = api.getLogger();
