@@ -264,7 +264,7 @@ exports.main = function (arguments){
 					else {
 						logger.warn("[PLG-"+PLG_NAME+"] - NO SENSORS!\n\n");
 					}
-					requestify.post('http://172.17.5.188:5000/sensors/93c39ba9-74cf-4461-b60a-9a206c7fc416', record)
+					requestify.post('http://212.189.207.119/bdb/sensors/93c39ba9-74cf-4461-b60a-9a206c7fc416', record)
 					.then(function(response) {
 					// Get the response body (JSON parsed or jQuery object for XMLs)
 					logger.info(response.getBody());
