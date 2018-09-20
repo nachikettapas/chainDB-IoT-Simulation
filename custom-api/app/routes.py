@@ -379,7 +379,7 @@ def sensor_by_id(sensor_id):
 @app.route('/sensors/<sensor_id>/graph', methods=['GET'])
 def drawGraph(sensor_id):
     points = []
-    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id}).limit(200).sort('data.Date', ASCENDING):
+    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id,"data.Date": {'$gte': ('2018-09-19T07:51:04.958496')}}).limit(200).sort('data.Date', ASCENDING):
         graphPoint={}
         try:
             readingType = point['data']['type']            
