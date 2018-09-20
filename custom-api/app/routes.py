@@ -9,6 +9,7 @@ from pymongo import MongoClient, ASCENDING, DESCENDING
 from cryptoconditions import Fulfillment
 from flask import render_template
 from sha3 import sha3_256
+from datetime import datetime, timedelta
 
 bdb_root_url = 'http://localhost:9984'
 bdb = BigchainDB(bdb_root_url)
@@ -379,7 +380,9 @@ def sensor_by_id(sensor_id):
 @app.route('/sensors/<sensor_id>/graph', methods=['GET'])
 def drawGraph(sensor_id):
     points = []
-    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id,"data.Date": {'$gte': ('2018-09-19T07:51:04.958496')}}).limit(200).sort('data.Date', ASCENDING):
+    current_time = str(datetime.utcnow()).replace(" ", 'T')
+    time_before = str(datetime.utcnow()-timedelta(days=1)).replace(" ", 'T')
+    for point in collection.find({"data.entity": "reading","data.resource_id":sensor_id,"data.Date": {'$gte': time_before,'$lte':current_time}}).limit(200).sort('data.Date', ASCENDING):
         graphPoint={}
         try:
             readingType = point['data']['type']            
