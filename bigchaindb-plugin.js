@@ -320,7 +320,7 @@ exports.main = function (arguments){
 				});
 				generateData(sensor_list); 
 
-			}, 5000);
+			}, 600000);
 			
 
 		}
