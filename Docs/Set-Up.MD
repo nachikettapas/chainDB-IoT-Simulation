@@ -205,3 +205,28 @@ resolver.setServers(['212.189.207.119:8600']);
 `cd chainDB-IoT-Simulation`
 `virtualenv venv -p python3`
 `source venv/bin/activate`
+
+
+custom-api.ini
+```
+[uwsgi]
+module = wsgi
+
+master = true
+processes = 5
+manage-script-name = true
+mount=/bdb=wsgi.py
+socket = custom-api.sock
+chmod-socket = 660
+vacuum = true
+
+die-on-term = true
+```
+
+
+# Notes
+* If the bigchaindb is configured as a cluster, then if BZT limit is exceeded, it will stop accepting the data, without an informative warning.
+* As of now 212.xx is running the flask uWSGI application via upstart and not systemmd. That is puzzling.
+* running a job using nohup command allows user to exit the terminal without the process terminating.
+* running a process with an & at the end, allows the user to type in the terminal even though process gives an output.
+* a good way to run the bigchaindb and tendermint instances is combining the above two: `nohup bigchaindb start &` and `nohup tendermint node &`.
