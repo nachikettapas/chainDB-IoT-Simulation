@@ -23,6 +23,7 @@
     "ws": "^5.2.0"
   },
   "dependencies": {
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "sync-request": "^6.0.0"
   }
 }
