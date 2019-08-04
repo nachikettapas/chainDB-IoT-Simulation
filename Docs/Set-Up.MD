@@ -21,7 +21,7 @@ export LC_CTYPE="en_US.UTF-8"
 sudo dpkg-reconfigure locales
 
 ## Installing Bigchaindb
-https://docs.bigchaindb.com/projects/server/en/latest/simple-network-setup.html#install-the-required-software
+http://docs.bigchaindb.com/projects/server/en/latest/simple-deployment-template/network-setup.html
 
 
 ## NGINX 
