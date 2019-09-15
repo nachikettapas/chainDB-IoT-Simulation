@@ -3,16 +3,21 @@
 Assuming a fresh installation of Ubuntu 16.04 on a server/virtual machine
 
 ## Installing Python 3.6
-Python 3.6 should be installed and be in use by `python3` in terminal.
-https://www.rosehosting.com/blog/how-to-install-python-3-6-on-ubuntu-16-04/
+Python 3.6 should be installed and must be in use by `python3` in terminal (python3 -V should result in python 3.6.x version).
+http://ubuntuhandbook.org/index.php/2017/07/install-python-3-6-1-in-ubuntu-16-04-lts/
 
 
 ### In case SSL is missing from pip
+`sudo apt-get install libreadline-gplv2-dev 
+			libncursesw5-dev 
+			libssl-dev 
+			libsqlite3-dev 
+			tk-dev libgdbm-dev 
+			libc6-dev 
+			libbz2-dev`
 
-sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
-
-And then re run the installation using 
-`make`
+And then re run the installation using \
+`make` \
 `make install`
 
 ## Loacle
